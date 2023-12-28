@@ -25,7 +25,7 @@ export default function RootLayout({
 					<div className="flex flex-col w-full">
 						<div className="flex items-center justify-center h-full">
 							<div className="bg-zinc-50 dark:bg-zinc-700 shadow-sm rounded-xl p-10">
-								<div className="p-8">{children}</div>
+								<div>{children}</div>
 							</div>
 						</div>
 					</div>

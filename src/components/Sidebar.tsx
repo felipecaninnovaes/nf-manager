@@ -13,7 +13,6 @@ import { RiArrowLeftDoubleFill } from "react-icons/ri";
 import { FiSearch } from "react-icons/fi";
 import { CiSearch } from "react-icons/ci";
 
-type Props = {};
 
 interface SideNavItemType {
 	icon?: {
@@ -35,6 +34,14 @@ const sidebarItmes: SideNavItemType[] = [
 	},
 	{
 		icon: {
+			icon: <GoHome />,
+			fillIcon: <GoHomeFill />,
+		},
+		label: "NFe",
+		href: "/nfe",
+	},
+	{
+		icon: {
 			icon: <CiSearch />,
 			fillIcon: <FiSearch />,
 		},
@@ -42,7 +49,7 @@ const sidebarItmes: SideNavItemType[] = [
 		href: "/usuarios",
 	},
 ];
-export default function Sidebar(props: Props) {
+export default function Sidebar() {
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
 
 	return (
