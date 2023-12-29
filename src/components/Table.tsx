@@ -21,17 +21,11 @@ type TableRowsProps<T, K extends keyof T> = {
 	columns: Array<ColumnDefinitionType<T, K>>;
 };
 
-const Table = <T, K extends keyof T>({
-	data,
-	columns,
-}: TableProps<T, K>): JSX.Element => {
-	return (
-		<table className="w-full">
-			<TableHeader columns={columns} />
-			<TableRows data={data} columns={columns} />
-		</table>
-	);
+type TableNavProps<T, K extends keyof T> = {
+	data: Array<T>;
+	columns: Array<ColumnDefinitionType<T, K>>;
 };
+
 
 const TableHeader = <T, K extends keyof T>({
 	columns,
@@ -84,6 +78,66 @@ const TableRows = <T, K extends keyof T>({
 	});
 
 	return <tbody>{rows}</tbody>;
+};
+
+export const Table = <T, K extends keyof T>({
+	data,
+	columns,
+}: TableNavProps<T, K>): JSX.Element => {
+	const [currentPage, setCurrentPage] = React.useState(1);
+	const [rowsPerPage, setRowsPerPage] = React.useState(10);
+	const lastIndex = currentPage * rowsPerPage;
+	const firstIndex = lastIndex - rowsPerPage;
+	const currentRows = data.slice(firstIndex, lastIndex);
+	const npage = Math.ceil(data.length / rowsPerPage);
+	const numbers = Array.from({ length: npage }, (_, index) => index + 1);
+	return (
+		<div>
+		<table className="w-full">
+			<TableHeader columns={columns} />
+			<TableRows data={currentRows} columns={columns} />
+		</table>
+			<div>
+				<nav>
+					<ul>
+						<li className="flex gap-3 pt-2">
+							<button
+								key={npage + 1}
+								type="button"
+								onClick={() => {
+									if (currentPage === 1) return;
+									setCurrentPage(currentPage - 1);
+								}}
+							>
+								{"<"}
+							</button>
+							{numbers.map((number) => (
+								<button
+									key={number}
+									type="button"
+									onClick={() => {
+										setCurrentPage(number);
+									}}
+								>
+									{number}
+								</button>
+							))}
+							<button
+								key={npage}
+								type="button"
+								onClick={() => {
+									if (currentPage === npage) return;
+									setCurrentPage(currentPage + 1);
+								}}
+							>
+								{">"}
+							</button>
+						</li>
+					</ul>
+				</nav>
+			</div>
+		</div>
+	);
 };
 
 export default Table;

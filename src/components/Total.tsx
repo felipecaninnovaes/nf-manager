@@ -8,7 +8,7 @@ type TotalProps<T> = {
 const Total = <T, K extends keyof T>({ data }: TotalProps<T>): JSX.Element => {
 	let total = 0.0;
 	data.map((item) => {
-		total += Number(item.nf_total);
+		total += Number(item.nftotal);
 	}, 0);
 
 	return (

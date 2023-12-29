@@ -8,24 +8,24 @@ import Search from "@/components/Search";
 
 const columns: ColumnDefinitionType<Nfe, keyof Nfe>[] = [
 	{
-		key: "nfeidnfe",
+		key: "idnfe",
 		header: "NFEid",
 	},
 	{
-		key: "dh_emi",
+		key: "dhemi",
 		header: "Data de Emissão",
 		width: 250,
 	},
 	{
-		key: "nf_total",
+		key: "nftotal",
 		header: "NF Total",
 	},
 	{
-		key: "emit",
+		key: "nfe_idemit",
 		header: "Emitente",
 	},
 	{
-		key: "dest",
+		key: "nfe_iddest",
 		header: "Destinatario",
 	},
 ];
