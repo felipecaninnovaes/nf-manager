@@ -1,9 +1,11 @@
 /** @format */
-
+import DragDrop from "@/components/DragAndDrop";
 import React from "react";
 
-type Props = {};
-
-export default function ProfilePage({}: Props) {
-  return <div>ProfilePage</div>;
+export default function ProfilePage() {
+	return (
+		<div>
+      <DragDrop model="nfe"/>
+		</div>
+	);
 }

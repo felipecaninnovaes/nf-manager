@@ -1,5 +1,5 @@
-/** @format */
-
-export default function Home() {
-	return <div>home page</div>;
+export default async function Home() {
+	return (
+		<h1>Home</h1>
+	);
 }
