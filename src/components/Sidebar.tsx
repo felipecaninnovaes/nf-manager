@@ -54,7 +54,7 @@ export default function Sidebar() {
 	return (
 		<div
 			className={cn(
-				"min-h-screen max-h-screen overflow-y-auto w-fit md:pr-2 pr-2 pt-2 flex flex-col bg-zinc-100 dark:bg-zinc-700 gap-3 pl-2",
+				"min-h-screen max-h-screen overflow-y-auto w-fit md:pr-2 pr-2 pt-2 flex flex-col bg-shark-100 dark:bg-shark-700 gap-3 pl-2",
 				isSidebarOpen && "md:w-60",
 			)}
 		>
@@ -140,7 +140,7 @@ function HoverContainer({
 	className?: string;
 }) {
 	return (
-		<div className="p-2 transition-all rounded-full cursor-pointer hover:bg-zinc-100 w-fit dark:hover:bg-zinc-800 group-hover:dark:bg-zinc-800 group-hover:bg-zinc-100 ">
+		<div className="p-2 transition-all rounded-full cursor-pointer hover:bg-shark-100 w-fit dark:hover:bg-shark-800 group-hover:dark:bg-shark-800 group-hover:bg-shark-100 ">
 			{children}
 		</div>
 	);

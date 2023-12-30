@@ -47,7 +47,7 @@ const TableHeader = <T, K extends keyof T>({
 	});
 
 	return (
-		<thead className="bg-zinc-50 dark:bg-zinc-700 border-b-2 border-zinc-200 dark:border-zinc-600">
+		<thead className="bg-shark-50 dark:bg-shark-700 border-b-2 border-shark-200 dark:border-shark-600">
 			<tr>{headers}</tr>
 		</thead>
 	);
@@ -60,7 +60,7 @@ const TableRows = <T, K extends keyof T>({
 	const rows = data.map((row, index) => {
 		return (
 			<tr
-				className="border-b-2 border-zinc-200 dark:border-zinc-600"
+				className="border-b-2 border-shark-200 dark:border-shark-600"
 				key={`row-${index}`}
 			>
 				{columns.map((column, index2) => {

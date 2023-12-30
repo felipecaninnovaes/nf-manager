@@ -1,10 +1,8 @@
 "use client";
 import Head from "next/head";
 import { LockClosedIcon } from "@heroicons/react/24/solid";
-
-import { setCookie } from "nookies";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
+import handleServerSingIn from "@/contexts/AuthContext";
 
 type SignInData = {
 	email: string;
@@ -18,50 +16,26 @@ type User = {
 };
 
 export default function LoginPage() {
+	
 	const { register, handleSubmit } = useForm();
 	function handleSingIn({ email, password }: SignInData) {
-		fetch("http://10.15.1.203:3001/api/user/login", {
-			method: "POST",
-			body: JSON.stringify({ email, password }),
-			headers: { "Content-Type": "application/json" },
-		})
-			.then((res) => {
-				if (res.ok) {
-					return res.json();
-				}
-				return res.json().then((err) => {
-					throw new Error(err.message);
-				});
-			})
-			.then((data: User) => {
-				setCookie(undefined, "nfemanager.token", data.token, {
-					maxAge: 60 * 60 * 1, // 1 hour
-				});
-			})
-			.catch((err) => {
-				console.log(err);
-			});
+		handleServerSingIn({ email, password });
 	}
 	return (
-		<div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+		<div className="min-h-screen flex items-center justify-center bg-shark-50 dark:bg-shark-950 py-12 px-4 sm:px-6 lg:px-8">
 			<Head>
 				<title>Home</title>
 			</Head>
 
 			<div className="max-w-sm w-full space-y-8">
 				<div>
-					<img
-						className="mx-auto h-12 w-auto"
-						src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-						alt="Workflow"
-					/>
-					<h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+					<h2 className="mt-6 text-center text-3xl font-extrabold text-shark-900 dark:text-shark-100">
 						Sign in to your account
 					</h2>
 				</div>
 				<form className="mt-8 space-y-6" onSubmit={handleSubmit(handleSingIn)}>
 					<input type="hidden" name="remember" defaultValue="true" />
-					<div className="rounded-md shadow-sm -space-y-px">
+					<div className="rounded-md shadow-sm space-y-2">
 						<div>
 							<label htmlFor="email-address" className="sr-only">
 								Email address
@@ -73,7 +47,7 @@ export default function LoginPage() {
 								type="email"
 								autoComplete="email"
 								required
-								className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+								className="appearance-none rounded-none relative block w-full px-3 py-2 border border-shark-300 dark:border-shark-700 placeholder-shark-500 dark:placeholderbg-shark-700 bg-shark-700 text-shark-900 rounded-t-md focus:outline-none focus:ring-shark-500 focus:border-shark-500 focus:z-10 sm:text-sm"
 								placeholder="Email address"
 							/>
 						</div>
@@ -88,7 +62,7 @@ export default function LoginPage() {
 								type="password"
 								autoComplete="current-password"
 								required
-								className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+								className="appearance-none rounded-none relative block w-full px-3 py-2 border border-shark-300 dark:border-shark-700 placeholder-shark-500 dark:placeholderbg-shark-700 bg-shark-700 text-shark-900 rounded-t-md focus:outline-none focus:ring-shark-500 focus:border-shark-500 focus:z-10 sm:text-sm"
 								placeholder="Password"
 							/>
 						</div>
@@ -100,11 +74,11 @@ export default function LoginPage() {
 								id="remember_me"
 								name="remember_me"
 								type="checkbox"
-								className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
+								className="h-4 w-4 text-shark-600  focus:ring-shark-500 border-shark-300 rounded"
 							/>
 							<label
 								htmlFor="remember_me"
-								className="ml-2 block text-sm text-gray-900"
+								className="ml-2 block text-sm text-shark-900 dark:text-shark-100"
 							>
 								Remember me
 							</label>
@@ -113,7 +87,7 @@ export default function LoginPage() {
 						<div className="text-sm">
 							<a
 								href="/"
-								className="font-medium text-indigo-600 hover:text-indigo-500"
+								className="font-medium text-shark-600 hover:text-shark-500 dark:text-shark-200 dark:hover:text-shark-300"
 							>
 								Forgot your password?
 							</a>
@@ -123,11 +97,11 @@ export default function LoginPage() {
 					<div>
 						<button
 							type="submit"
-							className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+							className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white dark:text-shark-800 bg-shark-600 dark:bg-shark-300 hover:bg-shark-700 dark:hover:bg-shark-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-shark-500"
 						>
 							<span className="absolute left-0 inset-y-0 flex items-center pl-3">
 								<LockClosedIcon
-									className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
+									className="h-5 w-5 text-shark-200 dark:text-shark-800 group-hover:text-shark-400 dark:group-hover:text-shark-800"
 									aria-hidden="true"
 								/>
 							</span>

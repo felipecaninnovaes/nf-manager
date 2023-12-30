@@ -3,10 +3,12 @@ import { DragEvent, useState } from "react";
 
 export type ModelType<T, K extends keyof T> = {
 	model: string;
+	children: React.ReactNode;
 };
 
 const DragAndDrop = <T, K extends keyof T>({
-	model
+	model,
+	children
 }: ModelType<T, K>): JSX.Element => {
 	const [isOver, setIsOver] = useState(false);
 	const [files, setFiles] = useState<File[]>([]);
@@ -43,14 +45,19 @@ const DragAndDrop = <T, K extends keyof T>({
 	};
 
 	return (
+	<div className="">
+
 		<div
-			onDragOver={handleDragOver}
-			onDragLeave={handleDragLeave}
-			onDrop={handleDrop}
-			className="w-96 h-96 border-2 border-dashed border-zinc-800 dark:border-zinc-300 rounded-md flex flex-col justify-center items-center"
+		onDragOver={handleDragOver}
+		onDragLeave={handleDragLeave}
+		onDrop={handleDrop}
+		className="w-96 h-96 border-2 border-dashed border-shark-800 dark:border-shark-300 rounded-md flex flex-col justify-center items-center"
 		>
 			Araste e solte os xmls aqui
 		</div>
+		<a href="/pages/nfe/upload" className="py-2 px-6 rounded-lg text-shark-50 bg-shark-100 border-2 border-shark-100 dark:border-shark-600 dark:bg-shark-800 p-1">Upload</a>
+	</div>
+		
 	);
 }
 
