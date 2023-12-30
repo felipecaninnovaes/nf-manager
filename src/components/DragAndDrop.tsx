@@ -35,7 +35,7 @@ const DragAndDrop = <T, K extends keyof T>({
 		droppedFiles.map((file) => {
 			const data = new FormData();
 			data.set(model, file);
-			const res = fetch("http://localhost:3001/api/upload/nfe", {
+			const res = fetch("http://10.15.1.203:3001/api/nfe/upload", {
 				method: "POST",
 				body: data,
 			});		
@@ -47,17 +47,9 @@ const DragAndDrop = <T, K extends keyof T>({
 			onDragOver={handleDragOver}
 			onDragLeave={handleDragLeave}
 			onDrop={handleDrop}
-			style={{
-				display: "flex",
-				justifyContent: "center",
-				alignItems: "center",
-				height: "50px",
-				width: "300px",
-				border: "1px dotted",
-				backgroundColor: isOver ? "lightgray" : "white",
-			}}
+			className="w-96 h-96 border-2 border-dashed border-zinc-800 dark:border-zinc-300 rounded-md flex flex-col justify-center items-center"
 		>
-			Drag and drop some files here
+			Araste e solte os xmls aqui
 		</div>
 	);
 }

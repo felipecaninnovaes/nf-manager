@@ -44,6 +44,7 @@ export default async function Home() {
 	const dataTable = await getData();
 	return (
 		<div>
+			<a href="/pages/nfe/upload">Upload</a>
 			<Search data="teste" />
 			<Table data={dataTable} columns={columns} />
 			<Total data={dataTable} />

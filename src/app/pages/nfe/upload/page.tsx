@@ -5,7 +5,11 @@ import React from "react";
 export default function ProfilePage() {
 	return (
 		<div>
-      <DragDrop model="nfe"/>
+			{/* Botao de voltar */}
+			<a className="" href="/pages/nfe">
+				Voltar
+			</a>
+			<DragDrop model="nfe" />
 		</div>
 	);
 }
