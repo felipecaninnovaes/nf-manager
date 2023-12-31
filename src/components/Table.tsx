@@ -47,7 +47,7 @@ const TableHeader = <T, K extends keyof T>({
 	});
 
 	return (
-		<thead className="bg-shark-50 dark:bg-shark-700 border-b-2 border-shark-200 dark:border-shark-600">
+		<thead className="bg-shark-100 dark:bg-shark-700 border-b-2 border-shark-200 dark:border-shark-600">
 			<tr>{headers}</tr>
 		</thead>
 	);

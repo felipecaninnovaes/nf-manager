@@ -15,7 +15,7 @@ type User = {
 }
 
 export default async function handleServerSingIn({ email, password }: SignInData) {
-    await fetch("http://10.15.1.203:3001/api/user/login", {
+    await fetch(`${process.env.API_URL_LOCAL}/api/user/login`, {
 			method: "POST",
 			body: JSON.stringify({ email, password }),
 			headers: { "Content-Type": "application/json" },
@@ -34,11 +34,11 @@ export default async function handleServerSingIn({ email, password }: SignInData
 					value: data.token,
 					expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 1),
 					path: "/",
-					sameSite: "strict"
+					sameSite: "strict",
 				});
-				redirect("/home");
 			})
 			.catch((err) => {
 				console.log(err);
 			});
+	redirect("/pages");
 }
