@@ -6,7 +6,7 @@ export default function Home() {
 					<div className="flex items-center justify-center h-full">
 						<div className="bg-shark-50 dark:bg-shark-900 shadow-sm rounded-xl p-10">
 							<div>
-								<h1>ola</h1>
+
 							</div>
 						</div>
 					</div>
