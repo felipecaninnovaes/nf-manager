@@ -7,6 +7,8 @@ type ButtonProps = {
 	type?: "submit" | "button" | "reset";
 	variant?: "solid" | "outline" | "ghost";
 	color?: "primary" | "secondary" | "danger" | "success" | "warning";
+	size?: "sm" | "md" | "lg";
+	className?: string;
 };
 
 export default function Button({
@@ -14,14 +16,22 @@ export default function Button({
 	color = "primary",
 	type = "button",
 	variant = "solid",
+	size = "md",
+	className,
 }: ButtonProps) {
 	const defaultButtonClasses =
-		"flex items-center gap-2 text-md rounded-lg focus:outline-none px-4 py-2 transition ease-in-out duration-150";
+		"flex relative justify-center items-center gap-2 text-md font-medium rounded-lg focus:outline-none px-4 py-2 transition ease-in-out duration-150";
+
+	const sizes = {
+		sm: "px-2 py-1 text-sm",
+		md: "px-4 py-2 text-md",
+		lg: "px-6 py-3 text-lg",
+	};
 
 	const variants = {
 		solid: {
 			primary:
-				"text-shark-800 dark:text-shark-100 bg-shark-50 dark:bg-shark-800 hover:bg-shark-200 dark:hover:bg-shark-900 focus:ring-2 focus:ring-offset-2 focus:ring-shark-500",
+				"bg-shark-700 dark:bg-shark-500 text-shark-100 dark:text-shark-950 hover:bg-shark-800 dark:hover:bg-shark-600",
 			secondary:
 				"bg-jordy-blue-500 dark:bg-jordy-blue-700 text-jordy-blue-950 dark:text-jordy-blue-100 hover:bg-jordy-blue-600 dark:hover:bg-jordy-blue-800",
 			danger:
@@ -60,7 +70,7 @@ export default function Button({
 	return (
 		<button
 			type={type}
-			className={cn(defaultButtonClasses, variants[variant][color])}
+			className={cn(className,defaultButtonClasses, variants[variant][color], sizes[size])}
 		>
 			{children}
 		</button>

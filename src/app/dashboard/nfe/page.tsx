@@ -6,6 +6,7 @@ import Total from "@/components/Total";
 import Search from "@/components/Search";
 import { cookies } from "next/headers";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 const columns: ColumnDefinitionType<Nfe, keyof Nfe>[] = [
 	{
@@ -32,7 +33,7 @@ const columns: ColumnDefinitionType<Nfe, keyof Nfe>[] = [
 ];
 
 async function getData() {
-	const res: Response = await fetch(`${process.env.API_URL_LOCAL}/api/nfe`, {
+	const res: Response = await fetch(`${process.env.API_URL_REMOTE}/api/nfe`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
@@ -49,7 +50,6 @@ async function getData() {
 
 export default async function Home() {
 	const dataTable = await getData();
-	// console.log(dataTable);
 	return (
 		<div>
 			<Search data="teste">

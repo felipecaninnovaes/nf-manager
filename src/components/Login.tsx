@@ -3,6 +3,7 @@ import Head from "next/head";
 import { LockClosedIcon } from "@heroicons/react/24/solid";
 import { useForm } from "react-hook-form";
 import handleServerSingIn from "@/contexts/AuthContext";
+import Button from "./Buttons";
 
 type SignInData = {
 	email: string;
@@ -17,7 +18,7 @@ type User = {
 
 export default function LoginForm() {
 	const { register, handleSubmit } = useForm();
-	function handleSingIn({ email, password }: SignInData) {
+	function handleSingIn({ email, password}: SignInData) {
 		handleServerSingIn({ email, password });
 	}
 	return (
@@ -94,9 +95,11 @@ export default function LoginForm() {
 					</div>
 
 					<div>
-						<button
+						<Button
 							type="submit"
-							className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white dark:text-shark-800 bg-shark-600 dark:bg-shark-300 hover:bg-shark-700 dark:hover:bg-shark-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-shark-500"
+							variant="solid"
+							size="md"
+							className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white focus:outline-none focus:ring-2 focus:ring-offset-2"
 						>
 							<span className="absolute left-0 inset-y-0 flex items-center pl-3">
 								<LockClosedIcon
@@ -105,7 +108,7 @@ export default function LoginForm() {
 								/>
 							</span>
 							Sign in
-						</button>
+						</Button>
 					</div>
 				</form>
 			</div>

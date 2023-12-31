@@ -1,5 +1,6 @@
 "use client";
 import React, { Children } from "react";
+import Button from "./Buttons";
 
 type SearchProps<T> = {
 	data: string;
@@ -14,12 +15,11 @@ const Search = <T, K extends keyof T>({ data, children }: SearchProps<T>): JSX.E
 					type="text"
 					placeholder="Pesquisa..."
 				/>
-				<button
-					type="button"
-					className="group relative w-auto flex justify-center py-2 px-6 text-sm font-medium rounded-lg text-shark-800 dark:text-shark-100 bg-shark-50 border-2 border-shark-300 dark:border-shark-600 dark:bg-shark-800 p-1 hover:bg-shark-200 dark:hover:bg-shark-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-shark-500"
+				<Button
+					type="button" variant="outline" color="primary" size="md"			
 				>
 					Pesquisar
-				</button>
+				</Button>
 				{children}
 			</div>
 		</div>
