@@ -21,6 +21,7 @@ export async function middleware(req: NextRequest) {
 	if (!token) {
 		return NextResponse.redirect(new URL("/login", req.url));
 	}
+
 	const response = await fetch(
 		`${process.env.API_URL_LOCAL}/api/user/token/${token.value}`,
 		{
@@ -30,9 +31,8 @@ export async function middleware(req: NextRequest) {
 			},
 		},
 	);
+	console.log(response.status);
 	if (response.status === 401) {
 		return NextResponse.redirect(new URL("/login", req.url));
 	}
-
-	return NextResponse.next();
 }

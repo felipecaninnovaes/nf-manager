@@ -1,7 +1,6 @@
 /** @format */
 "use client";
-import clsx from "clsx";
-import { ClassValue } from "clsx";
+import { clsx, type ClassValue} from "clsx";
 import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
