@@ -12,6 +12,10 @@ export async function middleware(req: NextRequest) {
 		return NextResponse.next();
 	}
 
+	if (req.nextUrl.pathname === "/") {
+		return NextResponse.redirect(new URL("/dashboard", req.url));
+	}
+
 	const token = await cookies().get("Bearer");
 
 	if (!token) {

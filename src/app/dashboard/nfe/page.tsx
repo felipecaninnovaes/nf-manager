@@ -1,8 +1,7 @@
 /** @format */
 
 import Table, { ColumnDefinitionType } from "@/components/Table";
-import { use, useEffect } from "react";
-import { Nfe } from "@/app/interfaces/nfe";
+import { Nfe } from "@/interfaces/nfe";
 import Total from "@/components/Total";
 import Search from "@/components/Search";
 import { cookies } from "next/headers";
@@ -56,7 +55,7 @@ export default async function Home() {
 			<Search data="teste">
 				<Link
 					type="button"
-					href="/pages/nfe/upload"
+					href="/dashboard/nfe/upload"
 					className="group relative w-auto flex justify-center py-2 px-6 text-sm font-medium rounded-lg text-shark-800 dark:text-shark-100 bg-shark-50 border-2 border-shark-300 dark:border-shark-600 dark:bg-shark-800 p-1 hover:bg-shark-200 dark:hover:bg-shark-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-shark-500"
 				>
 					Upload

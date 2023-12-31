@@ -40,5 +40,5 @@ export default async function handleServerSingIn({ email, password }: SignInData
 			.catch((err) => {
 				console.log(err);
 			});
-	redirect("/pages");
+	redirect("/dashboard");
 }
