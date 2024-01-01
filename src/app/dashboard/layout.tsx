@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 	description: "Gerensie suas notas fiscais de forma simples e rápida",
 };
 
-export default function RootLayout({
+export default function Home({
 	children,
 }: {
 	children: React.ReactNode;

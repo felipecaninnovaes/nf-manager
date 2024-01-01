@@ -5,7 +5,7 @@ export const config = {
 	matcher: "/((?!_next/static|_next/image|favicon.ico).*)",
 };
 
-const publicRoutes = ["/login"];
+const publicRoutes = ["/login", "/dashboard"];
 
 export async function middleware(req: NextRequest) {
 	if (publicRoutes.includes(req.nextUrl.pathname)) {
@@ -29,10 +29,12 @@ export async function middleware(req: NextRequest) {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
+			cache: "no-cache",
 		},
 	);
+
 	if (response.status === 401) {
 		return NextResponse.redirect(new URL("/login", req.url));
 	}
-	NextResponse.next();
+	return NextResponse.next();
 }

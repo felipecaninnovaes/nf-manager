@@ -1,5 +1,6 @@
 "use client";
-import { Nfe } from "@/app/interfaces/nfe";
+
+import { Nfe } from "@/interfaces/nfe";
 import React from "react";
 
 type TotalProps<T> = {

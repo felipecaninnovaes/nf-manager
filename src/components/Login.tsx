@@ -1,8 +1,7 @@
-"use client";
+// "use client";
 import Head from "next/head";
 import { LockClosedIcon } from "@heroicons/react/24/solid";
-import { useForm } from "react-hook-form";
-import handleServerSingIn from "@/contexts/AuthContext";
+import { AuthActions } from "@/contexts/AuthContext";
 import Button from "./Buttons";
 
 type SignInData = {
@@ -10,17 +9,7 @@ type SignInData = {
 	password: string;
 };
 
-type User = {
-	fistname: string;
-	email: string;
-	token: string;
-};
-
 export default function LoginForm() {
-	const { register, handleSubmit } = useForm();
-	function handleSingIn({ email, password}: SignInData) {
-		handleServerSingIn({ email, password });
-	}
 	return (
 		<div className="min-h-screen flex items-center justify-center bg-shark-50 dark:bg-shark-950 py-12 px-4 sm:px-6 lg:px-8">
 			<Head>
@@ -33,7 +22,7 @@ export default function LoginForm() {
 						Sign in to your account
 					</h2>
 				</div>
-				<form className="mt-8 space-y-6" onSubmit={handleSubmit(handleSingIn)}>
+				<form className="mt-8 space-y-6" action={AuthActions.login}>
 					<input type="hidden" name="remember" defaultValue="true" />
 					<div className="rounded-md shadow-sm space-y-2">
 						<div>
@@ -41,7 +30,6 @@ export default function LoginForm() {
 								Email address
 							</label>
 							<input
-								{...register("email")}
 								id="email-address"
 								name="email"
 								type="email"
@@ -56,7 +44,6 @@ export default function LoginForm() {
 								Password
 							</label>
 							<input
-								{...register("password")}
 								id="password"
 								name="password"
 								type="password"
