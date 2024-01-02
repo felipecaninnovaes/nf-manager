@@ -2,10 +2,8 @@
 import React, { useState } from "react";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { MdOutlineDashboard } from "react-icons/md";
-import { RiSettings4Line } from "react-icons/ri";
-import { TbReportAnalytics } from "react-icons/tb";
-import { AiOutlineUser, AiOutlineHeart } from "react-icons/ai";
-import { FiMessageSquare, FiFolder, FiShoppingCart } from "react-icons/fi";
+import { AiOutlineUser } from "react-icons/ai";
+import { FiFolder } from "react-icons/fi";
 import Link from "next/link";
 import { IconType } from "react-icons";
 import { v4 as uuidv4 } from "uuid";
@@ -17,15 +15,11 @@ type MenuType = {
 	margin?: boolean;
 };
 
-type SideBarV2Props = {
-	children?: React.ReactNode;
-};
-
 const SideBarV2 = () => {
 	const menus: MenuType[] = [
-		{ name: "Dashboard", link: "/dashboard", icon: MdOutlineDashboard },
-		{ name: "Usuario", link: "/dashboard/usuarios", icon: AiOutlineUser },
-		{ name: "Nfe", link: "/dashboard/nfe", icon: FiFolder },
+		{ name: "Dashboard", link: "/portal/dashboard", icon: MdOutlineDashboard },
+		{ name: "Usuario", link: "/portal/usuarios", icon: AiOutlineUser },
+		{ name: "Nfe", link: "/portal/nfe", icon: FiFolder },
 	];
 	const [open, setOpen] = useState(false);
 	return (

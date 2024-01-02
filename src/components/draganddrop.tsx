@@ -37,7 +37,7 @@ const DragAndDrop = <T, K extends keyof T>({
 
 		// Use FileReader to read file content
 		droppedFiles.map(async (file) => {
-			const content = await cookie
+			const content = await cookie;
 			const data = new FormData();
 			data.set(model, file);
 			const res = fetch(`${base_url}/api/nfe/upload`, {
@@ -45,26 +45,29 @@ const DragAndDrop = <T, K extends keyof T>({
 				body: data,
 				headers: {
 					Authorization: `Bearer ${content}`,
-				}
-			});		
+				},
+			});
 		});
 	};
 
 	return (
-	<div className="">
-
-		<div
-		onDragOver={handleDragOver}
-		onDragLeave={handleDragLeave}
-		onDrop={handleDrop}
-		className="w-96 h-96 border-2 border-dashed border-shark-800 dark:border-shark-300 rounded-md flex flex-col justify-center items-center"
-		>
-			Araste e solte os xmls aqui
+		<div className="">
+			<div
+				onDragOver={handleDragOver}
+				onDragLeave={handleDragLeave}
+				onDrop={handleDrop}
+				className="w-96 h-96 border-2 border-dashed border-shark-800 dark:border-shark-300 rounded-md flex flex-col justify-center items-center"
+			>
+				Araste e solte os xmls aqui
+			</div>
+			<a
+				href="/pages/nfe/upload"
+				className="py-2 px-6 rounded-lg text-shark-50 bg-shark-100 border-2 border-shark-100 dark:border-shark-600 dark:bg-shark-800 p-1"
+			>
+				Upload
+			</a>
 		</div>
-		<a href="/pages/nfe/upload" className="py-2 px-6 rounded-lg text-shark-50 bg-shark-100 border-2 border-shark-100 dark:border-shark-600 dark:bg-shark-800 p-1">Upload</a>
-	</div>
-		
 	);
-}
+};
 
 export default DragAndDrop;

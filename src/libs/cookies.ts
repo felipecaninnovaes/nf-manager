@@ -8,11 +8,3 @@ export const getCookie = async (name: string) => {
 	}
 	return undefined;
 };
-
-export const setCookieLocalStorage = async (
-    name: string,
-    value: string,
-): Promise<void> => {
-    "use client";
-    localStorage.setItem(name, value);
-}

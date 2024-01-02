@@ -9,7 +9,7 @@ type ButtonProps = {
 	color?: "primary" | "secondary" | "danger" | "success" | "warning";
 	size?: "sm" | "md" | "lg";
 	className?: string;
-};
+} & React.ComponentProps<"button">;
 
 export default function Button({
 	children,
@@ -18,6 +18,7 @@ export default function Button({
 	variant = "solid",
 	size = "md",
 	className,
+	...props
 }: ButtonProps) {
 	const defaultButtonClasses =
 		"flex relative justify-center items-center gap-2 text-md font-medium rounded-lg focus:outline-none px-4 py-2 transition ease-in-out duration-150";
@@ -64,13 +65,19 @@ export default function Button({
 				"bg-eucalyptus-700/20 dark:bg-eucalyptus-800/20 text-eucalyptus-950 dark:text-eucalyptus-100 hover:bg-eucalyptus-700/30 dark:hover:bg-eucalyptus-800/30",
 			warning:
 				"bg-fuel-yellow-700/20 dark:bg-fuel-yellow-800/20 border-2 border-fuel-yellow-500 dark:border-fuel-yellow-700 text-fuel-yellow-950 dark:text-fuel-yellow-100 hover:bg-fuel-yellow-700/15 dark:hover:bg-fuel-yellow-800/15",
-		}
+		},
 	};
 
 	return (
 		<button
 			type={type}
-			className={cn(className,defaultButtonClasses, variants[variant][color], sizes[size])}
+			className={cn(
+				className,
+				defaultButtonClasses,
+				variants[variant][color],
+				sizes[size],
+			)}
+			{...props}
 		>
 			{children}
 		</button>

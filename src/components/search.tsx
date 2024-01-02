@@ -1,12 +1,15 @@
 "use client";
 import React, { Children } from "react";
-import Button from "./Buttons";
+import Button from "@/components/button";
 
 type SearchProps<T> = {
 	data: string;
 	children: React.ReactNode;
 };
-const Search = <T, K extends keyof T>({ data, children }: SearchProps<T>): JSX.Element => {
+const Search = <T, K extends keyof T>({
+	data,
+	children,
+}: SearchProps<T>): JSX.Element => {
 	return (
 		<div className="p-2 text-right">
 			<div className="flex flex-row gap-2 pb-2 border-b-2 border-shark-200 dark:border-shark-600">
@@ -15,9 +18,7 @@ const Search = <T, K extends keyof T>({ data, children }: SearchProps<T>): JSX.E
 					type="text"
 					placeholder="Pesquisa..."
 				/>
-				<Button
-					type="button" variant="outline" color="primary" size="md"			
-				>
+				<Button type="button" variant="outline" color="primary" size="md">
 					Pesquisar
 				</Button>
 				{children}

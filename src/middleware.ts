@@ -5,7 +5,7 @@ export const config = {
 	matcher: "/((?!_next/static|_next/image|favicon.ico).*)",
 };
 
-const publicRoutes = ["/login", "/dashboard"];
+const publicRoutes = ["/login"];
 
 export async function middleware(req: NextRequest) {
 	if (publicRoutes.includes(req.nextUrl.pathname)) {
@@ -13,7 +13,11 @@ export async function middleware(req: NextRequest) {
 	}
 
 	if (req.nextUrl.pathname === "/") {
-		return NextResponse.redirect(new URL("/dashboard", req.url));
+		return NextResponse.redirect(new URL("/portal/dashboard", req.url));
+	}
+
+	if (req.nextUrl.pathname === "/portal") {
+		return NextResponse.redirect(new URL("/portal/dashboard", req.url));
 	}
 
 	const token = await cookies().get("Bearer");

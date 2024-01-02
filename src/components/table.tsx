@@ -26,7 +26,6 @@ type TableNavProps<T, K extends keyof T> = {
 	columns: Array<ColumnDefinitionType<T, K>>;
 };
 
-
 const TableHeader = <T, K extends keyof T>({
 	columns,
 }: TableHeaderProps<T, K>): JSX.Element => {
@@ -93,10 +92,10 @@ export const Table = <T, K extends keyof T>({
 	const numbers = Array.from({ length: npage }, (_, index) => index + 1);
 	return (
 		<div>
-		<table className="w-full">
-			<TableHeader columns={columns} />
-			<TableRows data={currentRows} columns={columns} />
-		</table>
+			<table className="w-full">
+				<TableHeader columns={columns} />
+				<TableRows data={currentRows} columns={columns} />
+			</table>
 			<div>
 				<nav>
 					<ul>
