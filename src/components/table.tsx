@@ -1,5 +1,6 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
+import Search from "./search";
 
 export type ColumnDefinitionType<T, K extends keyof T> = {
 	key: K;
@@ -24,6 +25,7 @@ type TableRowsProps<T, K extends keyof T> = {
 type TableNavProps<T, K extends keyof T> = {
 	data: Array<T>;
 	columns: Array<ColumnDefinitionType<T, K>>;
+	children?: React.ReactNode;
 };
 
 const TableHeader = <T, K extends keyof T>({
@@ -82,17 +84,44 @@ const TableRows = <T, K extends keyof T>({
 export const Table = <T, K extends keyof T>({
 	data,
 	columns,
+	children,
 }: TableNavProps<T, K>): JSX.Element => {
 	const [currentPage, setCurrentPage] = React.useState(1);
 	const [rowsPerPage, setRowsPerPage] = React.useState(10);
+	const [search, setSearch] = useState("");
+
+	const searchFilter = (rows: Array<T>, value: string) => {
+		return rows.filter((row) => {
+			return columns.some((column) => {
+				return (
+					String(row[column.key])
+						.toLowerCase()
+						.indexOf(value.toLowerCase()) > -1
+				);
+			});
+		});
+	};
+
+	// Save
+	const currentRowsSearch = searchFilter(data, search);
+
 	const lastIndex = currentPage * rowsPerPage;
 	const firstIndex = lastIndex - rowsPerPage;
-	const currentRows = data.slice(firstIndex, lastIndex);
-	const npage = Math.ceil(data.length / rowsPerPage);
+	const currentRows = currentRowsSearch.slice(firstIndex, lastIndex);
+	const npage = Math.ceil(currentRowsSearch.length / rowsPerPage);
 	const numbers = Array.from({ length: npage }, (_, index) => index + 1);
+
 	return (
-		<div>
-			<table className="w-full">
+		<div className="w-full">
+			<div className="flex h-auto border-b-2 border-shark-200 dark:border-shark-600">
+				<Search
+					className="w-auto"
+					onChange={(e) => setSearch(e.target.value)}
+					value={search}
+				/>
+				<div className="flex align-middle px-0 py-2">{children}</div>
+			</div>
+			<table className="w-auto">
 				<TableHeader columns={columns} />
 				<TableRows data={currentRows} columns={columns} />
 			</table>

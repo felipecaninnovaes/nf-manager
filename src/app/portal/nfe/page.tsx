@@ -7,32 +7,34 @@ import Search from "@/components/search";
 import { getCookie } from "@/libs/cookies";
 import Button from "@/components/button";
 import { redirect } from "next/navigation";
+import { formatarCnpj } from "@/libs/utils";
+
 
 const columns: ColumnDefinitionType<Nfe, keyof Nfe>[] = [
 	{
-		key: "idnfe",
-		header: "NFEid",
+		key: "nfe_nnf",
+		header: "Numero da Nota",
 	},
 	{
-		key: "dhemi",
+		key: "nfe_dhemi",
 		header: "Data de Emissão",
 		width: 250,
 	},
 	{
-		key: "nftotal",
+		key: "nfe_nftotal",
 		header: "NF Total",
 	},
 	{
-		key: "nfe_idemit",
+		key: "emit_cnpjcpf",
 		header: "Emitente",
 	},
 	{
-		key: "nfe_iddest",
+		key: "dest_cnpjcpf",
 		header: "Destinatario",
 	},
 ];
 
-async function getData() {
+async function getData(): Promise<Nfe[]> {
 	const cookie = (await getCookie("Bearer")) || "";
 	const res: Response = await fetch(`${process.env.API_URL_REMOTE}/api/nfe`, {
 		method: "GET",
@@ -46,7 +48,14 @@ async function getData() {
 		const data = await res.json();
 		return data;
 	}
-	return res;
+
+	const data = await res.json().then(
+		(data: Nfe[]) => {
+			return data as Nfe[];
+		},
+		() => Promise.resolve(),
+	);
+	return data as Nfe[];
 }
 
 async function navigate() {
@@ -59,12 +68,11 @@ export default async function Home() {
 	return (
 		<div>
 			<form action={navigate}>
-				<Search data="teste">
-					<Button variant="outline" color="primary" size="md" type="submit">
+				<Table data={dataTable} columns={columns}>
+					<Button variant="outline" color="primary" size="sm" type="submit">
 						Upload
 					</Button>
-				</Search>
-				<Table data={dataTable} columns={columns} />
+				</Table>
 				<Total data={dataTable} />
 			</form>
 		</div>
