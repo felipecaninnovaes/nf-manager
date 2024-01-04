@@ -1,5 +1,7 @@
 "use client";
-import { Nfe } from "@/app/interfaces/nfe";
+
+import { Nfe } from "@/interfaces/nfe";
+import { formatarCnpj } from "@/libs/utils";
 import React from "react";
 
 type TotalProps<T> = {
@@ -8,12 +10,15 @@ type TotalProps<T> = {
 const Total = <T, K extends keyof T>({ data }: TotalProps<T>): JSX.Element => {
 	let total = 0.0;
 	data.map((item) => {
-		total += Number(item.nftotal);
+		total += Number(item.nfe_nftotal);
 	}, 0);
-
+	const totalformat = Number(total).toLocaleString("pt-BR", {
+		style: "currency",
+		currency: "BRL",
+		});
 	return (
 		<div className="p-2 text-right">
-			<h1>Total: R$ {total}</h1>
+			<h1>Total: {totalformat}</h1>
 		</div>
 	);
 };

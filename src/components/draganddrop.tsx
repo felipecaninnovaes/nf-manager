@@ -3,14 +3,18 @@ import { DragEvent, useState } from "react";
 
 export type ModelType<T, K extends keyof T> = {
 	model: string;
+	cookie?: Promise<string | undefined>;
+	base_url?: string;
 };
 
 const DragAndDrop = <T, K extends keyof T>({
-	model
+	model,
+	cookie,
+	base_url,
 }: ModelType<T, K>): JSX.Element => {
 	const [isOver, setIsOver] = useState(false);
 	const [files, setFiles] = useState<File[]>([]);
-
+	const [token, setToken] = useState<string | undefined>();
 
 	// Define the event handlers
 	const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
@@ -32,34 +36,38 @@ const DragAndDrop = <T, K extends keyof T>({
 		setFiles(droppedFiles);
 
 		// Use FileReader to read file content
-		droppedFiles.map((file) => {
+		droppedFiles.map(async (file) => {
+			const content = await cookie;
 			const data = new FormData();
 			data.set(model, file);
-			const res = fetch("http://localhost:3001/api/upload/nfe", {
+			const res = fetch(`${base_url}/api/nfe/upload`, {
 				method: "POST",
 				body: data,
-			});		
+				headers: {
+					Authorization: `Bearer ${content}`,
+				},
+			});
 		});
 	};
 
 	return (
-		<div
-			onDragOver={handleDragOver}
-			onDragLeave={handleDragLeave}
-			onDrop={handleDrop}
-			style={{
-				display: "flex",
-				justifyContent: "center",
-				alignItems: "center",
-				height: "50px",
-				width: "300px",
-				border: "1px dotted",
-				backgroundColor: isOver ? "lightgray" : "white",
-			}}
-		>
-			Drag and drop some files here
+		<div className="">
+			<div
+				onDragOver={handleDragOver}
+				onDragLeave={handleDragLeave}
+				onDrop={handleDrop}
+				className="w-96 h-96 border-2 border-dashed border-shark-800 dark:border-shark-300 rounded-md flex flex-col justify-center items-center"
+			>
+				Araste e solte os xmls aqui
+			</div>
+			<a
+				href="/pages/nfe/upload"
+				className="py-2 px-6 rounded-lg text-shark-50 bg-shark-100 border-2 border-shark-100 dark:border-shark-600 dark:bg-shark-800 p-1"
+			>
+				Upload
+			</a>
 		</div>
 	);
-}
+};
 
 export default DragAndDrop;
