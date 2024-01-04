@@ -1,76 +1,121 @@
 "use client";
 import React, { useState } from "react";
+import { cn } from "@/libs/utils";
+import Link from "next/link";
 import { HiMenuAlt3 } from "react-icons/hi";
 import { MdOutlineDashboard } from "react-icons/md";
 import { AiOutlineUser } from "react-icons/ai";
 import { FiFolder } from "react-icons/fi";
-import Link from "next/link";
 import { IconType } from "react-icons";
-import { v4 as uuidv4 } from "uuid";
-
-type MenuType = {
-	name: string;
-	link: string;
+// define a NavItem prop
+export type NavItem = {
+	label: string;
+	href: string;
 	icon: IconType;
-	margin?: boolean;
 };
+export const defaultNavItems: NavItem[] = [
+	{ label: "Dashboard", href: "/portal/dashboard", icon: MdOutlineDashboard },
+	{ label: "Usuario", href: "/portal/usuarios", icon: AiOutlineUser },
+	{ label: "Nfe", href: "/portal/nfe", icon: FiFolder },
+];
 
-const SideBarV2 = () => {
-	const menus: MenuType[] = [
-		{ name: "Dashboard", link: "/portal/dashboard", icon: MdOutlineDashboard },
-		{ name: "Usuario", link: "/portal/usuarios", icon: AiOutlineUser },
-		{ name: "Nfe", link: "/portal/nfe", icon: FiFolder },
-	];
-	const [open, setOpen] = useState(false);
+// add NavItem prop to component prop
+type Props = {
+	collapsed?: boolean;
+	navItems?: NavItem[];
+	setCollapsed(collapsed: boolean): void;
+	shown: boolean;
+};
+const Sidebar = ({
+	navItems = defaultNavItems,
+	shown,
+	collapsed,
+	setCollapsed,
+}: Props) => {
+	const Icon = collapsed ? HiMenuAlt3 : HiMenuAlt3;
 	return (
-		<div>
-			<section className="flex">
+		<section>
+			<div
+				className={cn({
+					"bg-shark-50 dark:bg-shark-700 text-shark-600 dark:text-shark-100 fixed md:static md:translate-x-0 z-20": true,
+					"transition-all duration-300 ease-in-out": true,
+					"w-[300px]": !collapsed,
+					"w-16": collapsed,
+					"-translate-x-full": !shown,
+				})}
+			>
 				<div
-					className={`bg-shark-700 min-h-screen ${
-						open ? "w-72" : "w-16"
-					} duration-500 text-shark-600 dark:text-shark-100 px-4`}
+					className={cn({
+						"flex flex-col justify-between h-screen sticky inset-0 w-full": true,
+					})}
 				>
-					<div className="py-3 flex justify-end">
-						<HiMenuAlt3
-							size={26}
-							className="cursor-pointer"
-							onClick={() => setOpen(!open)}
-						/>
+					{/* logo and collapse button */}
+					<div
+						className={cn({
+							"flex items-center border-b border-b-shark-800 transition-none": true,
+							"p-4 justify-between": !collapsed,
+							"py-4 justify-center": collapsed,
+						})}
+					>
+						{!collapsed && <span className="whitespace-nowrap">My Logo</span>}
+						<button
+							type="button"
+							className="grid place-content-center hover:bg-shark-200 dark:hover:bg-shark-900 w-10 h-10 rounded-full opacity-0 md:opacity-100"
+							onClick={() => setCollapsed(!collapsed)}
+						>
+							<Icon className="w-5 h-5" />
+						</button>
 					</div>
-					<div className="mt-4 flex flex-col gap-4 relative">
-						{menus?.map((menu, i) => (
-							<Link
-								href={menu?.link}
-								key={uuidv4()}
-								className={` ${
-									menu?.margin && "mt-5"
-								} group flex items-center text-sm  gap-3.5 font-medium p-2 hover:bg-shark-800 rounded-md`}
-							>
-								<div>{React.createElement(menu?.icon, { size: "20" })}</div>
-								<h2
-									style={{
-										transitionDelay: `${i + 3}00ms`,
-									}}
-									className={`whitespace-pre duration-500 ${
-										!open && "opacity-0 translate-x-28 overflow-hidden"
-									}`}
-								>
-									{menu?.name}
-								</h2>
-								<h2
-									className={`${
-										open && "hidden"
-									} absolute left-48 bg-shark-50 dark:bg-shark-700 font-semibold whitespace-pre text-shark-900 dark:text-shark-100 rounded-md drop-shadow-lg px-0 py-0 w-0 overflow-hidden group-hover:px-2 group-hover:py-1 group-hover:left-14 group-hover:duration-300 group-hover:w-fit  `}
-								>
-									{menu?.name}
-								</h2>
-							</Link>
-						))}
+					<nav className="flex-grow">
+						<ul
+							className={cn({
+								"my-2 flex flex-col gap-2 items-stretch": true,
+							})}
+						>
+							{navItems.map((item, index) => {
+								return (
+									<li
+										key={item.label + index}
+										className={cn({
+											"text-shark-900 dark:text-shark-100 hover:bg-shark-200 dark:hover:bg-shark-900 flex": true, //colors
+											"transition-colors duration-300": true, //animation
+											"rounded-md p-2 mx-3 gap-4 ": !collapsed,
+											"rounded-full p-2 mx-3 w-10 h-10": collapsed,
+										})}
+									>
+										<Link href={item.href} className="flex gap-2">
+											{React.createElement(item?.icon, { size: "20" })}{" "}
+											<span>{!collapsed && item.label}</span>
+										</Link>
+									</li>
+								);
+							})}
+						</ul>
+					</nav>
+					<div
+						className={cn({
+							"grid place-content-stretch p-4 ": true,
+						})}
+					>
+						<div className="flex gap-4 items-center h-11 overflow-hidden">
+							{!collapsed && (
+								<div className="flex flex-col ">
+									<span className="text-shark-900 dark:text-shark-100 my-0">
+										Tom Cook
+									</span>
+									<Link
+										href="/"
+										className="text-shark-900 dark:text-shark-100 text-sm"
+									>
+										View Profile
+									</Link>
+								</div>
+							)}
+						</div>
 					</div>
 				</div>
-			</section>
-		</div>
+			</div>
+		</section>
 	);
 };
-
-export default SideBarV2;
+export default Sidebar;
