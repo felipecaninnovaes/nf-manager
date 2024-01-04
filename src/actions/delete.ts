@@ -15,6 +15,4 @@ export async function deleteInDB(id: string, tableName: string) {
 			cache: "no-cache",
 		},
 	);
-	console.log(tableName);
-	console.log(id);
 }
