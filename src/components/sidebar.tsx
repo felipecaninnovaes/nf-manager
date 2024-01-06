@@ -9,6 +9,7 @@ import { FiFolder } from "react-icons/fi";
 import { IconType } from "react-icons";
 import { usePathname } from "next/navigation";
 import { IoIosArrowDown } from "react-icons/io";
+import { IEmpresas } from "@/interfaces/empresas";
 // define a NavItem prop
 export type NavItem = {
 	label: string;
@@ -25,7 +26,9 @@ export const defaultNavItems: NavItem[] = [
 		href: "/portal/nfe",
 		icon: FiFolder,
 		submenu: true,
-		subMenuItems: [{ label: "DFE", href: "/portal/nfe", icon: FiFolder }],
+		subMenuItems: [
+			{ label: "Emitidas", href: "/portal/nfe/emitidas", icon: FiFolder },
+			{ label: "Upload", href: "/portal/nfe/upload", icon: FiFolder }],
 	},
 ];
 // add NavItem prop to component prop
@@ -36,6 +39,7 @@ type Props = {
 	setCollapsed(collapsed: boolean): void;
 	shown: boolean;
 	pathName?: string;
+	data?: IEmpresas[];
 };
 
 const Sidebar = ({
@@ -43,6 +47,7 @@ const Sidebar = ({
 	shown,
 	collapsed,
 	setCollapsed,
+	data
 }: Props) => {
 	const Icon = collapsed ? HiMenuAlt3 : HiMenuAlt3;
 	const pathname = usePathname();
@@ -118,7 +123,6 @@ const Sidebar = ({
 										>
 											{React.createElement(item?.icon, { size: "20" })}{" "}
 											<span className="text-xl flex">
-												
 												{collapsed ? "" : item.label}
 											</span>
 										</div>
@@ -178,12 +182,7 @@ const Sidebar = ({
 								<span className="text-shark-900 dark:text-shark-100 my-0">
 									Admin
 								</span>
-								<Link
-									href="/"
-									className="text-shark-900 dark:text-shark-100 text-sm"
-								>
-									View Profile
-								</Link>
+								
 							</div>
 						)}
 					</div>
@@ -199,7 +198,7 @@ const SubMenuItem = ({ navItems, collapsed, pathName }: Props) => {
 		<div
 			className={cn({
 				// "text-shark-900 dark:text-shark-100 hover:bg-shark-200 dark:hover:bg-shark-900 flex": true, //colors
-				"transition-colors duration-300": true, //animation
+				"transition-colors duration-300 flex flex-col gap-2": true, //animation
 			})}
 		>
 			{navItems?.map((subItem, idx) => {
@@ -208,12 +207,15 @@ const SubMenuItem = ({ navItems, collapsed, pathName }: Props) => {
 						href={subItem?.href || "flex items-center "}
 						className={cn({
 							"text-shark-900 dark:text-shark-100 hover:bg-shark-200 dark:hover:bg-shark-900 flex": true, //colors
-							"transition-colors duration-300": true, //animation
+							"transition-colors duration-300 ": true, //animation
 							"rounded-md p-1 mx-5 gap-4": !collapsed,
 							"font-bold": subItem?.href === pathName ? true : false,
 						})}
 					>
-						{collapsed ? "" : subItem?.icon && React.createElement(subItem.icon, { size: "20" })}{" "}
+						{collapsed
+							? ""
+							: subItem?.icon &&
+							  React.createElement(subItem.icon, { size: "20" })}{" "}
 						<span className="text-xl flex">
 							{collapsed ? "" : subItem?.label}
 						</span>
@@ -237,9 +239,7 @@ const MenuItem = ({ navItem, collapsed, pathName }: Props) => {
 			})}
 		>
 			{navItem?.icon && React.createElement(navItem.icon, { size: "20" })}{" "}
-			<span className="text-xl flex">
-				{collapsed ? "" : navItem?.label}
-			</span>
+			<span className="text-xl flex">{collapsed ? "" : navItem?.label}</span>
 		</Link>
 	);
 };

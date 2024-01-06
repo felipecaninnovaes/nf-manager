@@ -1,16 +1,19 @@
 /** @format */
 
-import Table, { ColumnDefinitionType } from "@/components/table";
-import { Nfe } from "@/interfaces/nfe";
+import { ColumnDefinitionType, TableNfe } from "@/components/table";
+import { INfe } from "@/interfaces/nfe";
 import Total from "@/components/total";
 import Search from "@/components/search";
 import { getCookie } from "@/libs/cookies";
 import Button from "@/components/button";
 import { redirect } from "next/navigation";
 import { formatarCnpj } from "@/libs/utils";
+import { useNfe } from "@/hooks/useNfe";
+import { useEmpresas } from "@/hooks/useEmpresas";
+import { useState } from "react";
+import { IEmpresas } from "@/interfaces/empresas";
 
-
-const columns: ColumnDefinitionType<Nfe, keyof Nfe>[] = [
+const columns: ColumnDefinitionType<INfe, keyof INfe>[] = [
 	{
 		key: "nfe_idnfe",
 		tableName: "nfe",
@@ -46,46 +49,20 @@ const columns: ColumnDefinitionType<Nfe, keyof Nfe>[] = [
 	},
 ];
 
-async function getData(): Promise<Nfe[]> {
-	const cookie = (await getCookie("Bearer")) || "";
-	const res: Response = await fetch(`${process.env.API_URL_REMOTE}/api/nfe`, {
-		method: "GET",
-		headers: {
-			"Content-Type": "application/json",
-			Authorization: `Bearer ${cookie}`,
-		},
-		cache: "no-cache",
-	});
-	if (res.ok) {
-		const data = await res.json();
-		return data;
-	}
-
-	const data = await res.json().then(
-		(data: Nfe[]) => {
-			return data as Nfe[];
-		},
-		() => Promise.resolve(),
-	);
-	return data as Nfe[];
-}
-
 async function navigate() {
 	"use server";
 	await redirect("/portal/nfe/upload");
 }
 
 export default async function Home() {
-	const dataTable = await getData();
+	const empresas = await useEmpresas();
+	const dataTable = await useNfe();
+
 	return (
 		<div>
+			{}
 			<form action={navigate}>
-				<Table data={dataTable} columns={columns}>
-					<Button variant="outline" color="primary" size="sm" type="submit">
-						Upload
-					</Button>
-				</Table>
-				<Total data={dataTable} />
+				<TableNfe data={dataTable} columns={columns} empresas={empresas} />
 			</form>
 		</div>
 	);

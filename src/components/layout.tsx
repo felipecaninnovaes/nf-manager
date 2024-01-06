@@ -2,8 +2,9 @@ import { cn } from "@/libs/utils";
 import React, { PropsWithChildren, useState } from "react";
 import Sidebar from "@/components/sidebar";
 import Navbar from "@/components/navbar";
+import { IEmpresas } from "@/interfaces/empresas";
 
-const Layout = (props: PropsWithChildren) => {
+const Layout = (props: PropsWithChildren, data: IEmpresas[]) => {
 	const [collapsed, setSidebarCollapsed] = useState(false);
 	const [showSidebar, setShowSidebar] = useState(true);
 	return (

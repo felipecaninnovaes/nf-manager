@@ -4,6 +4,13 @@ import Search from "@/components/search";
 import Button from "@/components/button";
 import { deleteInDB } from "@/actions/delete";
 import { FiTrash } from "react-icons/fi";
+import { IEmpresas } from "@/interfaces/empresas";
+import Total from "./total";
+import { INfe } from "@/interfaces/nfe";
+import { pagination } from "@/libs/pagination";
+import { searchFilter } from "@/libs/searchTable";
+import { SelectEmpresas, Select } from "./select";
+import { Pagination } from "./pagination";
 
 export type ColumnDefinitionType<T, K extends keyof T> = {
 	key: K;
@@ -12,10 +19,10 @@ export type ColumnDefinitionType<T, K extends keyof T> = {
 	width?: number;
 };
 
-type TableProps<T, K extends keyof T> = {
-	data: Array<T>;
-	columns: Array<ColumnDefinitionType<T, K>>;
-};
+// type TableProps<T, K extends keyof T> = {
+// 	data: Array<T>;
+// 	columns: Array<ColumnDefinitionType<T, K>>;
+// };
 
 type TableHeaderProps<T, K extends keyof T> = {
 	columns: Array<ColumnDefinitionType<T, K>>;
@@ -30,6 +37,7 @@ type TableNavProps<T, K extends keyof T> = {
 	data: Array<T>;
 	columns: Array<ColumnDefinitionType<T, K>>;
 	children?: React.ReactNode;
+	empresas: IEmpresas[];
 };
 
 const TableHeader = <T, K extends keyof T>({
@@ -83,7 +91,9 @@ const TableRows = <T, K extends keyof T>({
 						type="button"
 						size="sm"
 						color="danger"
-						onClick={() => deleteInDB(String(row[columns[0].key]), columns[0].tableName)}
+						onClick={() =>
+							deleteInDB(String(row[columns[0].key]), columns[0].tableName)
+						}
 					>
 						<FiTrash />
 					</Button>
@@ -95,39 +105,70 @@ const TableRows = <T, K extends keyof T>({
 	return <tbody>{rows}</tbody>;
 };
 
-export const Table = <T, K extends keyof T>({
+export const TableNfe = <T, K extends keyof T>({
 	data,
 	columns,
 	children,
+	empresas,
 }: TableNavProps<T, K>): JSX.Element => {
 	const [currentPage, setCurrentPage] = React.useState(1);
-	const [rowsPerPage, setRowsPerPage] = React.useState(10);
-	const [search, setSearch] = useState("");
 
-	const searchFilter = (rows: Array<T>, value: string) => {
-		return rows.filter((row) => {
-			return columns.some((column) => {
-				return (
-					String(row[column.key])
-						.toLowerCase()
-						.indexOf(value.toLowerCase()) > -1
-				);
-			});
-		});
+	const [empresasCNPJ, setEmpresasCNPJ] = useState<string>("");
+	const [selectType, setSelectType] = useState<string>("");
+	const [search, setSearch] = useState("");
+	const allData = data as INfe[];
+
+	const handleSetEmpresasCNPJ = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		setEmpresasCNPJ(e.target.value);
 	};
 
-	// Save
-	const currentRowsSearch = searchFilter(data, search);
+	const handleSetType = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		setSelectType(e.target.value);
+	};
 
-	const lastIndex = currentPage * rowsPerPage;
-	const firstIndex = lastIndex - rowsPerPage;
-	const currentRows = currentRowsSearch.slice(firstIndex, lastIndex);
-	const npage = Math.ceil(currentRowsSearch.length / rowsPerPage);
-	const numbers = Array.from({ length: npage }, (_, index) => index + 1);
+	
+
+		const currentFilteredData = empresasCNPJ
+		? (allData.filter((item) => item.emit_cnpjcpf === empresasCNPJ) as T[])
+		: [];
+
+	// const currentFilteredData= empresasCNPJ ? () => {
+	// 	if (selectType === "Entrada") {
+	// 		allData.filter((item) => item.emit_cnpjcpf === empresasCNPJ) as T[];
+	// 	}
+	// 	if (selectType === "Saida") {
+	// 		allData.filter((item) => item.emit_cnpjcpf === empresasCNPJ) as T[];
+	// 	}
+	// 	return [] as T[];
+	// }: []
+
+	const dataPage = searchFilter({
+		columns,
+		rows: currentFilteredData,
+		value: search,
+	});
+	const paginationResult = pagination({
+		dataPage,
+		currentPage,
+		rowsPerPage: 10,
+	});
 
 	return (
 		<div className="w-full">
 			<div className="flex h-auto border-b-2 border-shark-200 dark:border-shark-600">
+				<SelectEmpresas
+					value={empresasCNPJ}
+					onChange={handleSetEmpresasCNPJ}
+					empresas={empresas}
+				/>
+				<Select
+					options={[
+						{ label: "Entrada", value: "Entrada" },
+						{ label: "Saida", value: "Saida" },
+					]}
+					value={selectType}
+					onChange={handleSetType}
+				/>
 				<Search
 					className="w-auto"
 					onChange={(e) => setSearch(e.target.value)}
@@ -137,49 +178,17 @@ export const Table = <T, K extends keyof T>({
 			</div>
 			<table className="w-auto">
 				<TableHeader columns={columns} />
-				<TableRows data={currentRows} columns={columns} />
+				<TableRows data={paginationResult.currentRows} columns={columns} />
 			</table>
 			<div>
-				<nav>
-					<ul>
-						<li className="flex gap-3 pt-2">
-							<button
-								key={npage + 1}
-								type="button"
-								onClick={() => {
-									if (currentPage === 1) return;
-									setCurrentPage(currentPage - 1);
-								}}
-							>
-								{"<"}
-							</button>
-							{numbers.map((number) => (
-								<button
-									key={number}
-									type="button"
-									onClick={() => {
-										setCurrentPage(number);
-									}}
-								>
-									{number}
-								</button>
-							))}
-							<button
-								key={npage}
-								type="button"
-								onClick={() => {
-									if (currentPage === npage) return;
-									setCurrentPage(currentPage + 1);
-								}}
-							>
-								{">"}
-							</button>
-						</li>
-					</ul>
-				</nav>
+				<Pagination
+					currentPage={currentPage}
+					numberOfPages={paginationResult.numbers}
+					totalPages={paginationResult.totalPages}
+					setCurrentPage={setCurrentPage}
+				/>
 			</div>
+			<Total data={dataPage as INfe[]} />
 		</div>
 	);
 };
-
-export default Table;

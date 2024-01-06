@@ -60,12 +60,6 @@ const DragAndDrop = <T, K extends keyof T>({
 			>
 				Araste e solte os xmls aqui
 			</div>
-			<a
-				href="/pages/nfe/upload"
-				className="py-2 px-6 rounded-lg text-shark-50 bg-shark-100 border-2 border-shark-100 dark:border-shark-600 dark:bg-shark-800 p-1"
-			>
-				Upload
-			</a>
 		</div>
 	);
 };
