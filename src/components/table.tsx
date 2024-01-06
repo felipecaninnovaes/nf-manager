@@ -1,10 +1,14 @@
 "use client";
 import React, { useState } from "react";
-import Search from "./search";
+import Search from "@/components/search";
+import Button from "@/components/button";
+import { deleteInDB } from "@/actions/delete";
+import { FiTrash } from "react-icons/fi";
 
 export type ColumnDefinitionType<T, K extends keyof T> = {
 	key: K;
 	header: string;
+	tableName: string;
 	width?: number;
 };
 
@@ -74,6 +78,16 @@ const TableRows = <T, K extends keyof T>({
 						</td>
 					);
 				})}
+				<td>
+					<Button
+						type="button"
+						size="sm"
+						color="danger"
+						onClick={() => deleteInDB(String(row[columns[0].key]), columns[0].tableName)}
+					>
+						<FiTrash />
+					</Button>
+				</td>
 			</tr>
 		);
 	});
