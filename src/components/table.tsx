@@ -70,6 +70,11 @@ const TableRows = <T, K extends keyof T>({
 	data,
 	columns,
 }: TableRowsProps<T, K>): JSX.Element => {
+
+	const handleDelete = (id: string, tableName: string) => {
+		deleteInDB(id, tableName);
+	}
+
 	const rows = data.map((row, index) => {
 		return (
 			<tr
@@ -92,7 +97,7 @@ const TableRows = <T, K extends keyof T>({
 						size="sm"
 						color="danger"
 						onClick={() =>
-							deleteInDB(String(row[columns[0].key]), columns[0].tableName)
+							handleDelete(String(row[columns[0].key]), columns[0].tableName)
 						}
 					>
 						<FiTrash />
@@ -126,25 +131,30 @@ export const TableNfe = <T, K extends keyof T>({
 		setSelectType(e.target.value);
 	};
 
+
 	
 
-		const currentFilteredData = empresasCNPJ
-		? (allData.filter((item) => item.emit_cnpjcpf === empresasCNPJ) as T[])
-		: [];
-
-	// const currentFilteredData= empresasCNPJ ? () => {
-	// 	if (selectType === "Entrada") {
-	// 		allData.filter((item) => item.emit_cnpjcpf === empresasCNPJ) as T[];
-	// 	}
-	// 	if (selectType === "Saida") {
-	// 		allData.filter((item) => item.emit_cnpjcpf === empresasCNPJ) as T[];
-	// 	}
-	// 	return [] as T[];
-	// }: []
+	const currentFilteredData = (
+		allData: INfe[],
+		empresasCNPJ: string,
+		selectType: string,
+	): T[] => {
+		if (selectType === "Entrada") {
+			return allData.filter(
+				(item) => item.dest_cnpjcpf === empresasCNPJ,
+			) as T[];
+		}
+		if (selectType === "Saida") {
+			return allData.filter(
+				(item) => item.emit_cnpjcpf === empresasCNPJ,
+			) as T[];
+		}
+		return [] as T[];
+	};
 
 	const dataPage = searchFilter({
 		columns,
-		rows: currentFilteredData,
+		rows: currentFilteredData(allData, empresasCNPJ, selectType),
 		value: search,
 	});
 	const paginationResult = pagination({
