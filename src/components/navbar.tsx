@@ -18,7 +18,6 @@ const Navbar = (props: Props) => {
         "w-screen md:w-full sticky z-10 px-4 shadow-sm h-[73px] top-0 ": true, //positioning & styling
       })}
     >
-      <div className="font-bold text-lg">Admin Panel</div>
       <div className="flex-grow">
 
       </div>
