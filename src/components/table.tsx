@@ -139,12 +139,12 @@ export const TableNfe = <T, K extends keyof T>({
 		empresasCNPJ: string,
 		selectType: string,
 	): T[] => {
-		if (selectType === "Entrada") {
+		if (selectType === "ENTRADA") {
 			return allData.filter(
 				(item) => item.dest_cnpjcpf === empresasCNPJ,
 			) as T[];
 		}
-		if (selectType === "Saida") {
+		if (selectType === "SAIDA") {
 			return allData.filter(
 				(item) => item.emit_cnpjcpf === empresasCNPJ,
 			) as T[];
@@ -173,8 +173,9 @@ export const TableNfe = <T, K extends keyof T>({
 				/>
 				<Select
 					options={[
-						{ label: "Entrada", value: "Entrada" },
-						{ label: "Saida", value: "Saida" },
+						{ label: "SELECIONE UM TIPO", value: "SELECIONE UM TIPO" },
+						{ label: "ENTRADA", value: "ENTRADA" },
+						{ label: "SAIDA", value: "SAIDA" },
 					]}
 					value={selectType}
 					onChange={handleSetType}
