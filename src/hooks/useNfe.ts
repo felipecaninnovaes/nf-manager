@@ -8,24 +8,24 @@ type cnpjcpf = {
 export const useNfe = async (): Promise<INfe[]> => {
 	"use server";
 	const cookie = (await getCookie("Bearer")) || "";
-	const res: Response = await fetch(`${process.env.API_URL_REMOTE}/api/nfe`, {
+	const iduser = (await getCookie("IdUser")) || "";
+	const res: Response = await fetch(`${process.env.API_URL_REMOTE}/api/nfe/${iduser}`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
 			Authorization: `Bearer ${cookie}`,
+			"id-user": iduser,	
 		},
 		cache: "no-cache",
 	});
-	if (res.ok) {
-		const data = await res.json();
-		return data;
+	if (res.status === 200) {
+		const data = await res.json().then(
+			(data: INfe[]) => {
+				return data as INfe[];
+			},
+			() => Promise.resolve(),
+		);
+		return data as INfe[];
 	}
-
-	const data = await res.json().then(
-		(data: INfe[]) => {
-			return data as INfe[];
-		},
-		() => Promise.resolve(),
-	);
-	return data as INfe[];
+	return [] as INfe[];
 };

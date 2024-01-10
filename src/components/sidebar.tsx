@@ -202,6 +202,7 @@ const SubMenuItem = ({ navItems, collapsed, pathName }: Props) => {
 			{navItems?.map((subItem, idx) => {
 				return (
 					<Link
+						key={idx + 1}
 						href={subItem?.href || "flex items-center "}
 						className={cn({
 							"text-shark-900 dark:text-shark-100 hover:bg-shark-200 dark:hover:bg-shark-900 flex items-center": true, //colors

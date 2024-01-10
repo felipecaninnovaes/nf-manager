@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
+import { getCookie } from "./libs/cookies";
 
 export const config = {
 	matcher: "/((?!_next/static|_next/image|favicon.ico).*)",
@@ -21,13 +22,14 @@ export async function middleware(req: NextRequest) {
 	}
 
 	const token = await cookies().get("Bearer");
+	const iduser = (await getCookie("IdUser")) || "";
 
 	if (!token) {
 		return NextResponse.redirect(new URL("/login", req.url));
 	}
 
 	const response = await fetch(
-		`${process.env.API_URL_REMOTE}/api/user/token/${token.value}`,
+		`${process.env.API_URL_REMOTE}/api/user/token/\$${token.value}\$${iduser}`,
 		{
 			method: "GET",
 			headers: {

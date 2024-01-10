@@ -121,7 +121,8 @@ export const TableNfe = <T, K extends keyof T>({
 	const [empresasCNPJ, setEmpresasCNPJ] = useState<string>("");
 	const [selectType, setSelectType] = useState<string>("");
 	const [search, setSearch] = useState("");
-	const allData = data as INfe[];
+	const allData:INfe[] = data as INfe[] | INfe[];
+	
 
 	const handleSetEmpresasCNPJ = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		setEmpresasCNPJ(e.target.value);
@@ -139,6 +140,7 @@ export const TableNfe = <T, K extends keyof T>({
 		empresasCNPJ: string,
 		selectType: string,
 	): T[] => {
+
 		if (selectType === "ENTRADA") {
 			return allData.filter(
 				(item) => item.dest_cnpjcpf === empresasCNPJ,
