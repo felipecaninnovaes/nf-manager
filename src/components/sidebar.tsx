@@ -2,20 +2,34 @@
 import React, { useState } from "react";
 import { cn } from "@/libs/utils";
 import Link from "next/link";
-import { HiMenuAlt3, HiCloudUpload, HiOutlineDocumentText, HiDocumentText, HiOutlineUser } from "react-icons/hi";
+import {
+	HiMenuAlt3,
+	HiCloudUpload,
+	HiOutlineDocumentText,
+	HiDocumentText,
+	HiOutlineUser,
+} from "react-icons/hi";
 import { MdOutlineDashboard } from "react-icons/md";
 import { IconType } from "react-icons";
-import { usePathname } from "next/navigation";
-import { IoIosArrowDown } from "react-icons/io";
-import { IEmpresas } from "@/interfaces/empresas";
-// define a NavItem prop
-export type NavItem = {
+import DropdownMenu from "./dropdown";
+
+interface NavItem {
 	label: string;
 	href: string;
-	icon: IconType;
 	submenu?: boolean;
+	icon?: IconType;
 	subMenuItems?: NavItem[];
+}
+
+type Props = {
+	collapsed?: boolean;
+	navItems?: NavItem[];
+	navItem?: NavItem;
+	setCollapsed(collapsed: boolean): void;
+	shown: boolean;
+	pathName?: string;
 };
+
 export const defaultNavItems: NavItem[] = [
 	{ label: "Dashboard", href: "/portal/dashboard", icon: MdOutlineDashboard },
 	{ label: "Usuario", href: "/portal/usuarios", icon: HiOutlineUser },
@@ -26,7 +40,8 @@ export const defaultNavItems: NavItem[] = [
 		submenu: true,
 		subMenuItems: [
 			{ label: "Notas", href: "/portal/nfe/emitidas", icon: HiDocumentText },
-			{ label: "Upload", href: "/portal/nfe/upload", icon: HiCloudUpload }],
+			{ label: "Upload", href: "/portal/nfe/upload", icon: HiCloudUpload },
+		],
 	},
 	{
 		label: "Empresas",
@@ -34,34 +49,23 @@ export const defaultNavItems: NavItem[] = [
 		icon: HiOutlineDocumentText,
 		submenu: true,
 		subMenuItems: [
-			{ label: "Cadastro", href: "/portal/empresas/cadastro", icon: HiCloudUpload }],
+			{
+				label: "Cadastro",
+				href: "/portal/empresas/cadastro",
+				icon: HiCloudUpload,
+			},
+		],
 	},
 ];
 // add NavItem prop to component prop
-type Props = {
-	collapsed?: boolean;
-	navItems?: NavItem[];
-	navItem?: NavItem;
-	setCollapsed(collapsed: boolean): void;
-	shown: boolean;
-	pathName?: string;
-	data?: IEmpresas[];
-};
 
 const Sidebar = ({
 	navItems = defaultNavItems,
 	shown,
 	collapsed,
 	setCollapsed,
-	data
 }: Props) => {
 	const Icon = collapsed ? HiMenuAlt3 : HiMenuAlt3;
-	const pathname = usePathname();
-	const [subMenuOpen, setSubMenuOpen] = useState(false);
-	const toggleSubMenu = () => {
-		setSubMenuOpen(!subMenuOpen);
-		setCollapsed(false);
-	};
 	return (
 		<div
 			className={cn({
@@ -77,7 +81,6 @@ const Sidebar = ({
 					"flex flex-col h-screen transition-all duration-300 ease-in-out inset-0 w-full": true,
 				})}
 			>
-				{/* logo and collapse button */}
 				<div
 					className={cn({
 						"flex items-center transition-all duration-300 ease-in-out": true,
@@ -94,90 +97,7 @@ const Sidebar = ({
 						<Icon className="w-5 h-5" />
 					</button>
 				</div>
-
-				{navItems.map((item, index) => {
-					return (
-						<div
-							className={
-								collapsed
-									? "flex items-center py-2 justify-center transition-all duration-300 ease-in-out"
-									: " py-2 justify-center transition-all duration-300 ease-in-out"
-								
-							}
-							key={index + 1}
-						>
-							{item.submenu ? (
-								<>
-									<button
-										type="button"
-										onClick={toggleSubMenu}
-										className={
-											collapsed
-												? ""
-												: `flex flex-row transition-all duration-300 ease-in-out items-center p-2 rounded-lg hover-bg-zinc-100 w-full justify-between hover:bg-zinc-100 ${
-														pathname.includes(item.href)
-															? "bg-zinc-100"
-															: "flex items-center"
-												  }`
-										}
-									>
-										<div
-											className={
-												collapsed
-													? "flex flex-row p-2 items-center transition-all duration-300 ease-in-out"
-													: "flex flex-row space-x-4 items-center transition-all duration-300 ease-in-out"
-											}
-										>
-											{React.createElement(item?.icon, { size: "25" })}{" "}
-											<span className="text-xl flex">
-												{collapsed ? "" : item.label}
-											</span>
-										</div>
-
-										<div
-											className={`${
-												subMenuOpen
-													? "rotate-180 transition-all duration-300 ease-in-out"
-													: "transition-all duration-300 ease-in-out"
-											} flex`}
-										>
-											{collapsed ? "" : <IoIosArrowDown size="20" />}
-										</div>
-									</button>
-
-									{subMenuOpen && (
-										<div
-											className={
-												collapsed
-													? "flex items-center py-2 justify-center transition-all duration-300 ease-in-out"
-													: " py-2 justify-center dark:bg-shark-800 transition-all duration-300 ease-in-out"
-											}
-											key={index + 1}
-										>
-											<SubMenuItem
-												key={index + 1}
-												navItems={item.subMenuItems}
-												collapsed={collapsed}
-												pathName={pathname}
-												setCollapsed={setCollapsed}
-												shown={shown}
-											/>
-										</div>
-									)}
-								</>
-							) : (
-								<MenuItem
-									key={index + 3}
-									navItem={item}
-									collapsed={collapsed}
-									pathName={pathname}
-									setCollapsed={setCollapsed}
-									shown={shown}
-								/>
-							)}
-						</div>
-					);
-				})}
+				<DropdownMenu items={navItems} collapsed={collapsed} setCollapsed={setCollapsed}/>
 				<div
 					className={cn({
 						"grid place-content-stretch p-4 h-screen": true,
@@ -189,7 +109,6 @@ const Sidebar = ({
 								<span className="text-shark-900 dark:text-shark-100 my-0">
 									Admin
 								</span>
-								
 							</div>
 						)}
 					</div>
@@ -198,55 +117,84 @@ const Sidebar = ({
 		</div>
 	);
 };
+
+// const DropdownMenu: React.FC<DropdownMenuProps> = ({
+// 	items,
+// 	collapsed,
+// 	setCollapsed,
+// }: DropdownMenuProps) => {
+// 	const [activeIndex, setActiveIndex] = useState(-1);
+// 	const handleClick = (index: number) => {
+// 		setCollapsed(false);
+// 		setActiveIndex((prevIndex) => (prevIndex === index ? -1 : index));
+// 	};
+
+// 	return (
+// 		<ul
+// 		className={`transition-colors duration-300 flex flex-col gap-2 ${
+// 		collapsed ? "items-center" : "flex"}`}
+// 		>
+// 			{items.map((item, index) => (
+// 				<li
+// 					key={item.label}
+// 					className="px-4 py-2 hover:bg-gray-200 transition-all duration-200 ease-in-out transform"
+// 				>
+// 					{item.submenu ? (
+// 						<button
+// 							type="button"
+// 							onClick={() => handleClick(index)}
+// 							className={`flex items-center ${
+// 								activeIndex === index ? "text-blue-500" : ""
+// 							}`}
+// 						>
+// 							{item.icon && React.createElement(item.icon, { size: "25" })}
+// 							<span className="text-xl flex">
+// 								{collapsed ? "" : item?.label}
+// 							</span>
+// 						</button>
+// 					) : (
+// 						<Link
+// 							href={item.href}
+// 							onClick={() => handleClick(index)}
+// 							className={`flex items-center ${
+// 								activeIndex === index ? "text-blue-500" : ""
+// 							}`}
+// 						>
+// 							{item.icon && React.createElement(item.icon, { size: "25" })}
+// 							<span className="text-xl flex">
+// 								{collapsed ? "" : item?.label}
+// 							</span>
+// 						</Link>
+// 					)}
+// 					{item.submenu && activeIndex === index && (
+// 						<ul
+// 							className={`bg-gray-200 rounded-md py-2 mt-2 transition-all duration-200 ease-in-out transform ${
+// 								activeIndex === index ? "scale-100" : "scale-0"
+// 							}`}
+// 						>
+// 							{item.subMenuItems?.map((subItem, subIndex) => (
+// 								<li
+// 									key={subItem.label}
+// 									className="px-4 py-2 hover:bg-gray-300 transition-all duration-200 ease-in-out transform"
+// 								>
+// 									<Link
+// 										href={subItem.href}
+// 										className="transition-colors duration-300 flex gap-2"
+// 									>
+// 										{subItem.icon &&
+// 											React.createElement(subItem.icon, { size: "25" })}
+// 										<span className="text-xl flex">
+// 											{collapsed ? "" : subItem?.label}
+// 										</span>
+// 									</Link>
+// 								</li>
+// 							))}
+// 						</ul>
+// 					)}
+// 				</li>
+// 			))}
+// 		</ul>
+// 	);
+// };
+
 export default Sidebar;
-
-const SubMenuItem = ({ navItems, collapsed, pathName }: Props) => {
-	return (
-		<div
-			className={cn({
-				"transition-colors duration-300 flex flex-col gap-2": true, //animation
-			})}
-		>
-			{navItems?.map((subItem, idx) => {
-				return (
-					<Link
-						key={idx + 1}
-						href={subItem?.href || "flex items-center "}
-						className={cn({
-							"text-shark-900 dark:text-shark-100 hover:bg-shark-200 dark:hover:bg-shark-900 flex items-center": true, //colors
-							"transition-colors duration-300 ": true, //animation
-							"rounded-md p-1 mx-5 gap-4": !collapsed,
-							"font-bold": subItem?.href === pathName ? true : false,
-						})}
-					>
-						{collapsed
-							? ""
-							: subItem?.icon &&
-							  React.createElement(subItem.icon, { size: "25" })}{" "}
-						<span className="text-xl flex">
-							{collapsed ? "" : subItem?.label}
-						</span>
-					</Link>
-				);
-			})}
-		</div>
-	);
-};
-
-const MenuItem = ({ navItem, collapsed, pathName }: Props) => {
-	return (
-		<Link
-			href={navItem?.href || "flex items-center "}
-			className={cn({
-				"text-shark-900 dark:text-shark-100 hover:bg-shark-200 dark:hover:bg-shark-900 flex items-center": true, //colors
-				"transition-colors duration-300": true, //animation
-				"rounded-md p-2 gap-4": !collapsed,
-				"rounded-full p-2 w-10 h-10": collapsed,
-				"font-bold": navItem?.href === pathName ? true : false,
-			})}
-		>
-			{navItem?.icon && React.createElement(navItem.icon, { size: "25" })}{" "}
-			<span className="text-xl flex">{collapsed ? "" : navItem?.label}</span>
-		</Link>
-	);
-};
