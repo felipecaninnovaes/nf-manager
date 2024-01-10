@@ -28,6 +28,14 @@ export const defaultNavItems: NavItem[] = [
 			{ label: "Notas", href: "/portal/nfe/emitidas", icon: HiDocumentText },
 			{ label: "Upload", href: "/portal/nfe/upload", icon: HiCloudUpload }],
 	},
+	{
+		label: "Empresas",
+		href: "/portal/empresas",
+		icon: HiOutlineDocumentText,
+		submenu: true,
+		subMenuItems: [
+			{ label: "Cadastro", href: "/portal/empresas/cadastro", icon: HiCloudUpload }],
+	},
 ];
 // add NavItem prop to component prop
 type Props = {
