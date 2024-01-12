@@ -3,18 +3,19 @@ import { DragEvent, useState } from "react";
 
 export type ModelType<T, K extends keyof T> = {
 	model: string;
-	cookie?: Promise<string | undefined>;
+	cookie: string;
+	iduser: string;
 	base_url?: string;
 };
 
 const DragAndDrop = <T, K extends keyof T>({
 	model,
 	cookie,
+	iduser,
 	base_url,
 }: ModelType<T, K>): JSX.Element => {
 	const [isOver, setIsOver] = useState(false);
 	const [files, setFiles] = useState<File[]>([]);
-	const [token, setToken] = useState<string | undefined>();
 
 	// Define the event handlers
 	const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
@@ -37,14 +38,16 @@ const DragAndDrop = <T, K extends keyof T>({
 
 		// Use FileReader to read file content
 		droppedFiles.map(async (file) => {
-			const content = await cookie;
+			const cookies = await cookie;
+			const idusers = await iduser;
 			const data = new FormData();
 			data.set(model, file);
 			const res = fetch(`${base_url}/api/nfe/upload`, {
 				method: "POST",
 				body: data,
 				headers: {
-					Authorization: `Bearer ${content}`,
+					Authorization: `Bearer ${cookies}`,
+					"id-user": idusers,
 				},
 			});
 		});

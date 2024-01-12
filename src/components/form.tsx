@@ -1,6 +1,5 @@
 "use client";
-import { HiCamera, HiUserCircle } from "react-icons/hi";
-import Button from "./button";
+import Button from "@/components/button";
 import { cn } from "@/libs/utils";
 
 type FormProps = {

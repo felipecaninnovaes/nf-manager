@@ -34,7 +34,7 @@ async function cadastrar(formData: FormData) {
 	};
 	const cookie = (await getCookie("Bearer")) || "";
 	const iduser = (await getCookie("IdUser")) || "";
-	await fetch(`${process.env.API_URL_LOCAL}/api/empresas/cadastrar`, {
+	await fetch(`${process.env.API_URL_LOCAL}/api/empresas/cadastrar/${iduser}`, {
 		method: "POST",
 		body: JSON.stringify(empresa),
 		headers: {
@@ -46,19 +46,11 @@ async function cadastrar(formData: FormData) {
 		cache: "no-cache",
 	})
 		.then((res) => {
-			if (res.status === 201) {
-				return res.json();
+			if (res.status === 400) {
+				return ("erro ao cadastrar empresa")
 			}
-			return res.json().then((err) => {
-				throw new Error(err.message);
-			});
 		})
-		.then((data) => {
-			console.log(data);
-		})
-		.catch((err) => {
-			console.log(err);
-		});
+		redirect("/portal/nfe/emitidas");
 }
 
 export const empresa = { cadastrar };
