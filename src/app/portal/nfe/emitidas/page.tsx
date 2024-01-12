@@ -2,16 +2,9 @@
 
 import { ColumnDefinitionType, TableNfe } from "@/components/table";
 import { INfe } from "@/interfaces/nfe";
-import Total from "@/components/total";
-import Search from "@/components/search";
-import { getCookie } from "@/libs/cookies";
-import Button from "@/components/button";
 import { redirect } from "next/navigation";
-import { formatarCnpj } from "@/libs/utils";
 import { useNfe } from "@/hooks/useNfe";
 import { useEmpresas } from "@/hooks/useEmpresas";
-import { useState } from "react";
-import { IEmpresas } from "@/interfaces/empresas";
 
 const columns: ColumnDefinitionType<INfe, keyof INfe>[] = [
 	{
@@ -55,9 +48,9 @@ async function navigate() {
 }
 
 export default async function Home() {
+
 	const empresas = await useEmpresas();
 	const dataTable = await useNfe();
-
 	return (
 		<div>
 			{}

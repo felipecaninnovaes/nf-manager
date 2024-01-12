@@ -49,6 +49,11 @@ export const defaultNavItems: NavItem[] = [
 		submenu: true,
 		subMenuItems: [
 			{
+				label: "Listagem",
+				href: "/portal/empresas/listagem",
+				icon: HiDocumentText,
+			},
+			{
 				label: "Cadastro",
 				href: "/portal/empresas/cadastro",
 				icon: HiCloudUpload,

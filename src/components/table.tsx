@@ -19,11 +19,6 @@ export type ColumnDefinitionType<T, K extends keyof T> = {
 	width?: number;
 };
 
-// type TableProps<T, K extends keyof T> = {
-// 	data: Array<T>;
-// 	columns: Array<ColumnDefinitionType<T, K>>;
-// };
-
 type TableHeaderProps<T, K extends keyof T> = {
 	columns: Array<ColumnDefinitionType<T, K>>;
 };
@@ -123,7 +118,6 @@ export const TableNfe = <T, K extends keyof T>({
 	const [search, setSearch] = useState("");
 	const allData:INfe[] = data as INfe[] | INfe[];
 	
-
 	const handleSetEmpresasCNPJ = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		setEmpresasCNPJ(e.target.value);
 	};
@@ -131,9 +125,6 @@ export const TableNfe = <T, K extends keyof T>({
 	const handleSetType = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		setSelectType(e.target.value);
 	};
-
-
-	
 
 	const currentFilteredData = (
 		allData: INfe[],

@@ -50,7 +50,7 @@ async function cadastrar(formData: FormData) {
 				return ("erro ao cadastrar empresa")
 			}
 		})
-		redirect("/portal/nfe/emitidas");
+		redirect("/portal/empresas/listagem");
 }
 
 export const empresa = { cadastrar };
