@@ -7,6 +7,7 @@ type SignInData = {
 };
 
 type User = {
+	iduser: string;
 	fistname: string;
 	email: string;
 	token: string;
@@ -35,6 +36,13 @@ async function login(formData: FormData) {
 			cookies().set({
 				name: "Bearer",
 				value: data.token,
+				expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 1),
+				path: "/",
+				sameSite: "strict",
+			});
+			cookies().set({
+				name: "IdUser",
+				value: data.iduser,
 				expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 1),
 				path: "/",
 				sameSite: "strict",
