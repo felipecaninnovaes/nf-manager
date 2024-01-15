@@ -1,74 +1,17 @@
 "use client";
-import React, { useState } from "react";
 import { cn } from "@/libs/utils";
-import {
-	HiMenuAlt3,
-	HiCloudUpload,
-	HiOutlineDocumentText,
-	HiDocumentText,
-	HiOutlineUser,
-} from "react-icons/hi";
-import { MdOutlineDashboard } from "react-icons/md";
-import { IconType } from "react-icons";
+import { HiMenuAlt3 } from "react-icons/hi";
 import DropdownMenu from "./dropdown";
+import { SideBarProps } from "@/types/sidbar";
 
-interface NavItem {
-	label: string;
-	href: string;
-	submenu?: boolean;
-	icon?: IconType;
-	subMenuItems?: NavItem[];
-}
-
-type Props = {
-	collapsed?: boolean;
-	navItems?: NavItem[];
-	navItem?: NavItem;
-	setCollapsed(collapsed: boolean): void;
-	shown: boolean;
-	pathName?: string;
-};
-
-export const defaultNavItems: NavItem[] = [
-	{ label: "Dashboard", href: "/portal/dashboard", icon: MdOutlineDashboard },
-	{ label: "Usuario", href: "/portal/usuarios", icon: HiOutlineUser },
-	{
-		label: "Nfe",
-		href: "/portal/nfe",
-		icon: HiOutlineDocumentText,
-		submenu: true,
-		subMenuItems: [
-			{ label: "Notas", href: "/portal/nfe/emitidas", icon: HiDocumentText },
-			{ label: "Upload", href: "/portal/nfe/upload", icon: HiCloudUpload },
-		],
-	},
-	{
-		label: "Empresas",
-		href: "/portal/empresas",
-		icon: HiOutlineDocumentText,
-		submenu: true,
-		subMenuItems: [
-			{
-				label: "Listagem",
-				href: "/portal/empresas/listagem",
-				icon: HiDocumentText,
-			},
-			{
-				label: "Cadastro",
-				href: "/portal/empresas/cadastro",
-				icon: HiCloudUpload,
-			},
-		],
-	},
-];
 // add NavItem prop to component prop
 
 const Sidebar = ({
-	navItems = defaultNavItems,
+	sideItems: navItems,
 	shown,
 	collapsed,
 	setCollapsed,
-}: Props) => {
+}: SideBarProps) => {
 	const Icon = collapsed ? HiMenuAlt3 : HiMenuAlt3;
 	return (
 		<div
@@ -101,7 +44,11 @@ const Sidebar = ({
 						<Icon className="w-5 h-5" />
 					</button>
 				</div>
-				<DropdownMenu items={navItems} collapsed={collapsed} setCollapsed={setCollapsed}/>
+				<DropdownMenu
+					items={navItems || []}
+					collapsed={collapsed}
+					setCollapsed={setCollapsed}
+				/>
 				<div
 					className={cn({
 						"grid place-content-stretch p-4 h-screen": true,
