@@ -13,3 +13,9 @@ export interface IEmpresas {
 	email: string;
 	regime_tributario: string;
 }
+
+export interface IEmpresaData {
+	Data: IEmpresas[];
+	Message: string
+	StatusCode: number
+}

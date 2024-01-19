@@ -14,7 +14,7 @@ export default async function Home() {
 		{ key: "regime_tributario", value: "Regime Tributario" },
 	];
 	const rows: Rows[] = mapToRows(
-		dataTable,
+		dataTable.Data,
 		collunms.map((item) => item.key),
 	);
 	return (

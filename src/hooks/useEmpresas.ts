@@ -1,7 +1,7 @@
 import { getCookie } from "@/libs/cookies";
-import { IEmpresas } from "@/interfaces/empresas";
+import { IEmpresaData } from "@/interfaces/empresas";
 
-export const useEmpresas = async (): Promise<IEmpresas[]> => {
+export const useEmpresas = async (): Promise<IEmpresaData> => {
 	"use server";
 	const cookie = (await getCookie("Bearer")) || "";
 	const iduser = (await getCookie("IdUser")) || "";
@@ -16,12 +16,12 @@ export const useEmpresas = async (): Promise<IEmpresas[]> => {
 	});
 	if (res.status === 200) {
 		const data = await res.json().then(
-			(data: IEmpresas[]) => {
-				return data as IEmpresas[];
+			(data: IEmpresaData) => {
+				return data as IEmpresaData;
 			},
 			() => Promise.resolve(),
 		);
-		return data as IEmpresas[];
+		return data as IEmpresaData;
 	}
-	return [] as IEmpresas[];
+	return null as unknown as IEmpresaData;
 };

@@ -55,7 +55,7 @@ export default async function Home() {
 		<div>
 			{}
 			<form action={navigate}>
-				<TableNfe data={dataTable} columns={columns} empresas={empresas} />
+				<TableNfe data={dataTable} columns={columns} empresas={empresas.Data} />
 			</form>
 		</div>
 	);
