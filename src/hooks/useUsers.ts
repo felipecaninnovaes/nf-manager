@@ -1,11 +1,11 @@
 import { getCookie } from "@/libs/cookies";
-import { IUsers } from "@/interfaces/users";
+import { IUsers, IUsersData } from "@/interfaces/users";
 
 type cnpjcpf = {
 	cnpjcpf: string;
 };
 
-export const useUser = async (): Promise<IUsers[]> => {
+export const useUser = async (): Promise<IUsersData> => {
 	"use server";
 	const cookie = (await getCookie("Bearer")) || "";
 	const iduser = (await getCookie("IdUser")) || "";
@@ -20,12 +20,12 @@ export const useUser = async (): Promise<IUsers[]> => {
 	});
 	if (res.status === 200) {
 		const data = await res.json().then(
-			(data: IUsers[]) => {
-				return data as IUsers[];
+			(data: IUsersData) => {
+				return data as IUsersData;
 			},
 			() => Promise.resolve(),
 		);
-		return data as IUsers[];
+		return data as IUsersData;
 	}
-	return [] as IUsers[];
+	return null as unknown as IUsersData;
 };

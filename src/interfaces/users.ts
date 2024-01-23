@@ -1,6 +1,12 @@
 export interface IUsers {
-    iduser: string
-    firstname: string
-    secondname: string
-    email: string
+  email: string
+  firstname: string
+  iduser: string
+  secondname: string
+}
+
+export interface IUsersData {
+  Data: IUsers[]
+  Message: string
+  StatusCode: number
   }

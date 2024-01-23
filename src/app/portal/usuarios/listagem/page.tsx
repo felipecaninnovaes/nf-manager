@@ -12,7 +12,7 @@ export default async function Home() {
 		{ key: "email", value: "Email" },
 	];
 	const rows: Rows[] = mapToRows(
-		dataTable,
+		dataTable.Data,
 		collunms.map((item) => item.key),
 	);
 	return (
