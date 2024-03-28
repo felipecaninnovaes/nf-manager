@@ -1,6 +1,6 @@
 "use client";
-import { IconType } from "react-icons";
 import { cn } from "@/libs/utils";
+import { IconType } from "react-icons";
 
 type ButtonProps = {
 	children?: React.ReactNode;

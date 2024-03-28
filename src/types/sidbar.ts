@@ -1,5 +1,4 @@
-import { SideItems } from "@/interfaces/sidebar";
-
+import type { SideItems } from "@/interfaces/sidebar";
 
 export type SideBarProps = {
 	collapsed?: boolean;

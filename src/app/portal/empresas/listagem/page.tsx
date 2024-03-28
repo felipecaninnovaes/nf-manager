@@ -1,6 +1,6 @@
-import { mapToRows, Collunms, Rows } from "@/libs/convert";
 import { TableHeader, Tables } from "@/components/genericTable";
 import { useEmpresas } from "@/hooks/useEmpresas";
+import { type Collunms, type Rows, mapToRows } from "@/libs/convert";
 
 export default async function Home() {
 	const dataTable = await useEmpresas();

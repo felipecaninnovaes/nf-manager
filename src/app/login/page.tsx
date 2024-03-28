@@ -1,18 +1,22 @@
-import Head from "next/head";
-import { AuthActions } from "@/contexts/AuthContext";
 import Button from "@/components/button";
+import { AuthActions } from "@/contexts/AuthContext";
+import type { Metadata } from "next";
+import Head from "next/head";
 
 type SignInData = {
 	email: string;
 	password: string;
 };
 
+export const metadata: Metadata = {
+	title: "Home",
+};
 export default async function Login() {
 	return (
 		<div className="min-h-screen flex items-center justify-center bg-shark-50 dark:bg-shark-950 py-12 px-4 sm:px-6 lg:px-8">
-			<Head>
+			{/* <Head>
 				<title>Home</title>
-			</Head>
+			</Head> */}
 
 			<div className="max-w-sm w-full space-y-8">
 				<div>

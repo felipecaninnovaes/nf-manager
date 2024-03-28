@@ -1,8 +1,9 @@
-import { cn } from "@/libs/utils";
-import React, { useState } from "react";
-import Sidebar from "@/components/sidebar";
 import Navbar from "@/components/navbar";
-import { SideItems } from "@/interfaces/sidebar";
+import Sidebar from "@/components/sidebar";
+import type { SideItems } from "@/interfaces/sidebar";
+import { cn } from "@/libs/utils";
+import type React from "react";
+import { useState } from "react";
 
 type Props = {
 	sideBarItems: SideItems[];

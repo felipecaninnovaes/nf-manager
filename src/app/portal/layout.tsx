@@ -1,6 +1,6 @@
 "use client";
 import Layout from "@/components/layout";
-import { SideItems } from "@/interfaces/sidebar";
+import type { SideItems } from "@/interfaces/sidebar";
 import {
 	HiCloudUpload,
 	HiDocumentText,

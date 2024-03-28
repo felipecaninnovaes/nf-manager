@@ -1,5 +1,5 @@
 "use client";
-import { DragEvent, useState } from "react";
+import { type DragEvent, useState } from "react";
 
 export type ModelType<T, K extends keyof T> = {
 	model: string;

@@ -1,6 +1,6 @@
 "use client";
-import { on } from "events";
-import React from "react";
+import { on } from "node:events";
+import type React from "react";
 
 type Pagination<T> = {
 	className?: string;

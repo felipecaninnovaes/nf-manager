@@ -1,8 +1,8 @@
 "use client";
 import { cn } from "@/libs/utils";
+import type { SideBarProps } from "@/types/sidbar";
 import { HiMenuAlt3 } from "react-icons/hi";
 import DropdownMenu from "./dropdown";
-import { SideBarProps } from "@/types/sidbar";
 
 // add NavItem prop to component prop
 

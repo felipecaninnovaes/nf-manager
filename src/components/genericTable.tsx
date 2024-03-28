@@ -1,6 +1,6 @@
 "use client";
 import { Pagination } from "@/components/pagination";
-import { Collunms, Rows } from "@/libs/convert";
+import type { Collunms, Rows } from "@/libs/convert";
 import { usePagination } from "@/libs/pagination";
 import { useState } from "react";
 
@@ -74,7 +74,7 @@ function TableColunm({ colunm, children, ...props }: TableColunmProps) {
 		<tr>
 			{colunm.map((item, index) => (
 				<th
-					key={index + 1}
+					key={item.key + index.toFixed()}
 					className="w-20 p-3 text-sm font-semibold tracking-wide text-left"
 				>
 					{item.value}
@@ -87,12 +87,12 @@ function TableColunm({ colunm, children, ...props }: TableColunmProps) {
 function TableRow({ tableRow, children, ...props }: TableRowProps) {
 	return tableRow.map((item, index) => (
 		<tr
-			key={index + 1}
+			key={item.value[0].value + index.toFixed()}
 			{...props}
 			className="w-100 p-2 text-sm uppercase whitespace-nowrap text-left tracking-wide bg-shark-50 dark:bg-shark-700 border-shark-200 dark:border-shark-600 border-b-2 "
 		>
 			{item.value.map((item, index) => (
-				<TableCell key={index + 1}>{item.value}</TableCell>
+				<TableCell key={item.key}>{item.value}</TableCell>
 			))}
 		</tr>
 	));
@@ -122,14 +122,14 @@ export function Tables({
 	rows,
 }: { collunms: Collunms[]; rows: Rows[] }) {
 	"use client";
-    const [currentPage, setCurrentPage] = useState(1);
+	const [currentPage, setCurrentPage] = useState(1);
 
-    const paginationResult = usePagination({
-        data: rows,
-        itemsPerPage: 5,
-        currentPage,
-        setCurrentPage,
-    });
+	const paginationResult = usePagination({
+		data: rows,
+		itemsPerPage: 5,
+		currentPage,
+		setCurrentPage,
+	});
 	return (
 		<div>
 			<Table>

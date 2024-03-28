@@ -1,6 +1,6 @@
 "use client";
 
-import { INfe } from "@/interfaces/nfe";
+import type { INfe } from "@/interfaces/nfe";
 import { formatarCnpj } from "@/libs/utils";
 import React from "react";
 

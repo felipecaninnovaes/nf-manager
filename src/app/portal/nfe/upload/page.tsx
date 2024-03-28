@@ -9,7 +9,12 @@ export default async function ProfilePage() {
 	const base_url = process.env.API_URL_LOCAL;
 	return (
 		<div>
-			<DragDrop model="nfe" cookie={cookie} base_url={base_url} iduser={iduser}/>
+			<DragDrop
+				model="nfe"
+				cookie={cookie}
+				base_url={base_url}
+				iduser={iduser}
+			/>
 		</div>
 	);
 }

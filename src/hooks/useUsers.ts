@@ -1,5 +1,5 @@
+import { IUsers, type IUsersData } from "@/interfaces/users";
 import { getCookie } from "@/libs/cookies";
-import { IUsers, IUsersData } from "@/interfaces/users";
 
 type cnpjcpf = {
 	cnpjcpf: string;
@@ -14,7 +14,7 @@ export const useUser = async (): Promise<IUsersData> => {
 		headers: {
 			"Content-Type": "application/json",
 			Authorization: `Bearer ${cookie}`,
-			"id-user": iduser,	
+			"id-user": iduser,
 		},
 		cache: "no-cache",
 	});

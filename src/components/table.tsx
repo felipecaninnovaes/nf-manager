@@ -1,16 +1,16 @@
 "use client";
-import React, { useState } from "react";
-import Search from "@/components/search";
-import Button from "@/components/button";
 import { deleteInDB } from "@/actions/delete";
-import { FiTrash } from "react-icons/fi";
-import { IEmpresas } from "@/interfaces/empresas";
-import Total from "./total";
-import { INfe } from "@/interfaces/nfe";
+import Button from "@/components/button";
+import Search from "@/components/search";
+import type { IEmpresas } from "@/interfaces/empresas";
+import type { INfe } from "@/interfaces/nfe";
 import { pagination } from "@/libs/pagination";
 import { searchFilter } from "@/libs/searchTable";
-import { SelectEmpresas, Select } from "./select";
+import React, { useState } from "react";
+import { FiTrash } from "react-icons/fi";
 import { Pagination } from "./pagination";
+import { Select, SelectEmpresas } from "./select";
+import Total from "./total";
 
 export type ColumnDefinitionType<T, K extends keyof T> = {
 	key: K;
@@ -46,7 +46,7 @@ const TableHeader = <T, K extends keyof T>({
 		return (
 			<th
 				className="p-2 text-sm font-semibold uppercase text-left tracking-wide"
-				key={`headCell-${index}`}
+				key={`headCell-${String(column.key)}`}
 				style={style}
 			>
 				{column.header}
@@ -65,22 +65,21 @@ const TableRows = <T, K extends keyof T>({
 	data,
 	columns,
 }: TableRowsProps<T, K>): JSX.Element => {
-
 	const handleDelete = (id: string, tableName: string) => {
 		deleteInDB(id, tableName);
-	}
+	};
 
 	const rows = data.map((row, index) => {
 		return (
 			<tr
 				className="border-b-2 border-shark-200 dark:border-shark-600"
-				key={`row-${index}`}
+				key={`row-${row[columns[0].key]}`}
 			>
 				{columns.map((column, index2) => {
 					return (
 						<td
 							className="p-2 text-sm text-left tracking-wide"
-							key={`cell-${index2}`}
+							key={`cell-${String(column.key) + String(index2)}`}
 						>
 							{String(row[column.key])}
 						</td>
@@ -116,8 +115,8 @@ export const TableNfe = <T, K extends keyof T>({
 	const [empresasCNPJ, setEmpresasCNPJ] = useState<string>("");
 	const [selectType, setSelectType] = useState<string>("");
 	const [search, setSearch] = useState("");
-	const allData:INfe[] = data as INfe[] | INfe[];
-	
+	const allData: INfe[] = data as INfe[] | INfe[];
+
 	const handleSetEmpresasCNPJ = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		setEmpresasCNPJ(e.target.value);
 	};
@@ -131,7 +130,6 @@ export const TableNfe = <T, K extends keyof T>({
 		empresasCNPJ: string,
 		selectType: string,
 	): T[] => {
-
 		if (selectType === "ENTRADA") {
 			return allData.filter(
 				(item) => item.dest_cnpjcpf === empresasCNPJ,

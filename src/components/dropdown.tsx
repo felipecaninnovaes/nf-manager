@@ -1,7 +1,7 @@
 "use client";
-import React, { useState } from "react";
 import Link from "next/link";
-import { IconType } from "react-icons";
+import React, { useState } from "react";
+import type { IconType } from "react-icons";
 
 interface NavItem {
 	label: string;
@@ -30,8 +30,9 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({
 
 	return (
 		<ul
-		className={`transition-colors duration-300 flex flex-col gap-2 ${
-		collapsed ? "items-center" : "flex"}`}
+			className={`transition-colors duration-300 flex flex-col gap-2 ${
+				collapsed ? "items-center" : "flex"
+			}`}
 		>
 			{items.map((item, index) => (
 				<li

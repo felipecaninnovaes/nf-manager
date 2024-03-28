@@ -1,7 +1,8 @@
 "use client";
-import React, { Children } from "react";
 import Button from "@/components/button";
 import { cn } from "@/libs/utils";
+import type React from "react";
+import { Children } from "react";
 
 type SearchProps<T> = {
 	children?: React.ReactNode;

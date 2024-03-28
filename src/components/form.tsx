@@ -155,7 +155,7 @@ export function FormSelect<T, K extends keyof T>({
 			>
 				{options?.map((item, index) => {
 					return (
-						<option key={index + 1} value={item.value}>
+						<option key={item.value} value={item.value}>
 							{item.label}
 						</option>
 					);

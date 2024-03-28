@@ -1,10 +1,10 @@
 /** @format */
 
-import { ColumnDefinitionType, TableNfe } from "@/components/table";
-import { INfe } from "@/interfaces/nfe";
-import { redirect } from "next/navigation";
-import { useNfe } from "@/hooks/useNfe";
+import { type ColumnDefinitionType, TableNfe } from "@/components/table";
 import { useEmpresas } from "@/hooks/useEmpresas";
+import { useNfe } from "@/hooks/useNfe";
+import type { INfe } from "@/interfaces/nfe";
+import { redirect } from "next/navigation";
 
 const columns: ColumnDefinitionType<INfe, keyof INfe>[] = [
 	{
@@ -48,7 +48,6 @@ async function navigate() {
 }
 
 export default async function Home() {
-
 	const empresas = await useEmpresas();
 	const dataTable = await useNfe();
 	return (

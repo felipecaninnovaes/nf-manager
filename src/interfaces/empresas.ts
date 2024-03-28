@@ -16,6 +16,6 @@ export interface IEmpresas {
 
 export interface IEmpresaData {
 	Data: IEmpresas[];
-	Message: string
-	StatusCode: number
+	Message: string;
+	StatusCode: number;
 }

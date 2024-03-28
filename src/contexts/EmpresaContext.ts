@@ -44,13 +44,12 @@ async function cadastrar(formData: FormData) {
 		},
 
 		cache: "no-cache",
-	})
-		.then((res) => {
-			if (res.status === 400) {
-				return ("erro ao cadastrar empresa")
-			}
-		})
-		redirect("/portal/empresas/listagem");
+	}).then((res) => {
+		if (res.status === 400) {
+			return "erro ao cadastrar empresa";
+		}
+	});
+	redirect("/portal/empresas/listagem");
 }
 
 export const empresa = { cadastrar };

@@ -1,6 +1,6 @@
 "use client";
-import React from "react";
-import { IEmpresas } from "@/interfaces/empresas";
+import type { IEmpresas } from "@/interfaces/empresas";
+import type React from "react";
 
 type SelectEmpresasProps<T> = {
 	className?: string;
@@ -32,7 +32,7 @@ export const SelectEmpresas = <T, K extends keyof T>({
 					<option value="selecione">SELECIONE UMA EMPRESA</option>
 					{empresas?.map((item, index) => {
 						return (
-							<option key={index + 1} value={item.cnpj}>
+							<option key={item.idempresa} value={item.cnpj}>
 								{item.nome}
 							</option>
 						);
@@ -57,7 +57,7 @@ export const Select = <T, K extends keyof T>({
 				>
 					{options?.map((item, index) => {
 						return (
-							<option key={index + 1} value={item.value}>
+							<option key={item.value} value={item.value}>
 								{item.label}
 							</option>
 						);
